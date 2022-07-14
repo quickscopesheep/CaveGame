@@ -14,6 +14,10 @@ public class Sprite {
     public static final Sprite player = new Sprite(0, 0, 16, 18, SpriteSheet.player);
     public static final Sprite player_walk = new Sprite(1, 0, 16, 18, SpriteSheet.player);
 
+    public static final Sprite husk = new Sprite(0, 0, 16, 18, SpriteSheet.husk);
+    public static final Sprite husk_walk = new Sprite(1, 0, 16, 18, SpriteSheet.husk);
+
+
     public Sprite(int x, int y, int w, int h, SpriteSheet sheet){
         this.width = w;
         this.height = h;

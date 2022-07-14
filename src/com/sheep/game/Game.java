@@ -1,5 +1,6 @@
 package com.sheep.game;
 
+import com.sheep.game.entity.mob.Husk;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.CaveLevel.CaveLevel;
@@ -39,6 +40,8 @@ public class Game extends Canvas implements Runnable{
         level = new CaveLevel(64, 64, 1);
 
         level.Add(player = new Player(16*32, 16*32, level));
+
+        level.Add(new Husk(16 * 32 + 24, 16*32, level));
 
         Keyboard keyboard = new Keyboard();
         Mouse mouse = new Mouse();

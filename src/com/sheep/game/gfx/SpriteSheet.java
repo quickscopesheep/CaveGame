@@ -11,6 +11,7 @@ public class SpriteSheet {
 
     public static final SpriteSheet caveTiles = new SpriteSheet("/sprites/caveTiles.png", 64, 64);
     public static final SpriteSheet player = new SpriteSheet("/sprites/player.png", 32, 18);
+    public static final SpriteSheet husk = new SpriteSheet("/sprites/Zombie.png", 32, 18);
 
     public SpriteSheet(String path, int width, int height){
         this.path = path;

@@ -29,7 +29,6 @@ public class Player extends Mob{
         frame++;
         if(frame > 128) frame = 0;
 
-
         float mag = (float)Math.sqrt(inputX*inputX + inputY*inputY);
 
         float moveX = ((float)inputX/mag) * moveSpeed;
