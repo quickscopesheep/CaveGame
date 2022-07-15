@@ -15,16 +15,20 @@ public class Mob extends Entity {
     protected float xBoundOffset;
     protected float yBoundOffset;
 
-    public Mob(float x, float y, float xBound, float yBound, Level level) {
-        super(x, y, level);
+    float health;
+    float knockBackX, knockBackY, knockBackTime;
+
+    public Mob(float x, float y, float xBound, float yBound, EntityType type, Level level) {
+        super(x, y, type, level);
         this.xBound = xBound;
         this.yBound = yBound;
         this.xBoundOffset = 0;
         this.yBoundOffset = 0;
+        health = 25;
     }
 
-    public Mob(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, Level level) {
-        super(x, y, level);
+    public Mob(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, EntityType type, Level level) {
+        super(x, y, type, level);
         this.xBound = xBound;
         this.yBound = yBound;
         this.xBoundOffset = xBoundOffset;
@@ -33,7 +37,16 @@ public class Mob extends Entity {
 
     @Override
     public void tick(){
+        super.tick();
+        if(knockBackX != 0 || knockBackY != 0){
+            float frameKnockBackX = knockBackX / knockBackTime;
+            float frameKnockBackY = knockBackY / knockBackTime;
 
+            move(frameKnockBackX, frameKnockBackY);
+
+            knockBackX -= frameKnockBackX;
+            knockBackY -= frameKnockBackY;
+        }
     }
 
     @Override
@@ -54,6 +67,14 @@ public class Mob extends Entity {
             if(ax > 0) dir = 1;
             if(ax < 0) dir = 0;
         }
+    }
+
+    public void Damage(float damage, float knockBackX, float knockBackY, float knockBackTime){
+        health -= damage;
+        this.knockBackX = knockBackX;
+        this.knockBackY = knockBackY;
+        this.knockBackTime = knockBackTime;
+
     }
 
     private boolean collision(float ax, float ay){

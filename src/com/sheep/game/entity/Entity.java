@@ -1,22 +1,35 @@
 package com.sheep.game.entity;
 
+import com.sheep.game.entity.mob.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.Level;
 
 public abstract class Entity {
     protected float x, y;
-    protected Level level;
+    int quadrant;
 
-    public Entity(float x, float y, Level level){
+    EntityType type;
+
+    protected Level level;
+    boolean removed;
+
+    public Entity(float x, float y, EntityType type, Level level){
         this.x = x;
         this.y = y;
+        this.type = type;
         this.level = level;
     }
 
-    public abstract void tick();
+    public void tick(){
+        int quadX = (int)((x/16)/16);
+        int quadY = (int)((y/16)/16);
+        quadrant = quadY*level.getWidth()+quadX;
+    }
+
     public abstract void render(Screen screen);
 
     public void Remove(){
+        removed = true;
         level.Remove(this);
     }
 
@@ -40,5 +53,15 @@ public abstract class Entity {
         this.y = y;
     }
 
+    public boolean isRemoved() {
+        return removed;
+    }
 
+    public int getQuadrant() {
+        return quadrant;
+    }
+
+    public EntityType getType() {
+        return type;
+    }
 }

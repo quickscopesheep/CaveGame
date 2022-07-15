@@ -13,11 +13,13 @@ public class Player extends Mob{
     int frame;
 
     public Player(int x, int y, Level level) {
-        super(x, y, 12, 14, 0, 2, level);
+        super(x, y, 12, 14, 0, 2, EntityType.Player, level);
+        health = 100;
     }
 
     @Override
     public void tick(){
+        super.tick();
         int inputX = 0, inputY = 0;
         if(Keyboard.UP) inputY = -1;
         if(Keyboard.DOWN) inputY = 1;
@@ -44,9 +46,9 @@ public class Player extends Mob{
     public void render(Screen screen) {
         int anim = frame / 12 % 2;
         if(moving){
-            screen.renderSprite((int) x - 8, (int) y - 8, anim == 1 ? Sprite.player : Sprite.player_walk, dir == 0);
+            screen.renderSpriteLit((int) x - 8, (int) y - 8, anim == 1 ? Sprite.player : Sprite.player_walk, dir == 0);
         }else{
-            screen.renderSprite((int) x - 8, (int) y - 8, Sprite.player, dir == 0);
+            screen.renderSpriteLit((int) x - 8, (int) y - 8, Sprite.player, dir == 0);
         }
 
     }

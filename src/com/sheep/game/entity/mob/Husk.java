@@ -6,38 +6,44 @@ import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
 import com.sheep.game.util.MathUtil;
 
-public class Husk extends Mob{
+public class Husk extends Unit{
     private static final float moveSpeed = (float) 16 / 60;
+
+    float damageCoolDown, moveCoolDown;
 
     boolean moving;
     int frame;
 
     public Husk(float x, float y, Level level) {
-        super(x, y, 10, 15, 0, 1, level);
+        super(x, y, 10, 15, 0, 1, 6*16, EntityType.Husk, level);
     }
 
     @Override
     public void tick() {
+        super.tick();
         frame++;
         if(frame > 128) frame = 0;
 
-        if(canSeePlayer() && dstToPlayer() > 2){
-            float playerX = Game.player.getX();
-            float playerY = Game.player.getY();
+        float playerX = Game.player.getX();
+        float playerY = Game.player.getY();
 
-            float dirX = MathUtil.NormalizeX(playerX - this.x, playerY - this.y) * .8f;
-            float dirY = MathUtil.NormalizeY(playerX - this.x, playerY - this.y);
+        float dirX = MathUtil.NormalizeX(playerX - this.x, playerY - this.y) * .8f;
+        float dirY = MathUtil.NormalizeY(playerX - this.x, playerY - this.y);
 
+        if(damageCoolDown > 0) damageCoolDown--;
+        if(moveCoolDown > 0) moveCoolDown--;
 
-
-            moving = dirX != 0 || dirY != 0;
-
+        if(canSeePlayer() && dstToPlayer() > 5 && moveCoolDown <= 0){
+            moving = true;
             move(dirX * moveSpeed, dirY * moveSpeed);
+        }else{
+            moving = false;
+            if(damageCoolDown <= 0 && canSeePlayer()){
+                Game.player.Damage(10, dirX * 20, dirY * 20, 10);
+                damageCoolDown = 60;
+                moveCoolDown = 15;
+            }
         }
-    }
-
-    float dstToPlayer(){
-        return MathUtil.Distance(this.x, this.y, Game.player.getX(), Game.player.getY());
     }
 
     @Override
@@ -48,9 +54,5 @@ public class Husk extends Mob{
         }else{
             screen.renderSpriteLit((int) x - 8, (int) y - 8, Sprite.husk, dir == 0);
         }
-    }
-
-    boolean canSeePlayer(){
-        return true;
     }
 }

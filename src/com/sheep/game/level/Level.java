@@ -1,6 +1,7 @@
 package com.sheep.game.level;
 
 import com.sheep.game.entity.Entity;
+import com.sheep.game.entity.mob.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.tiles.Tile;
 import com.sheep.game.util.MathUtil;
@@ -20,7 +21,7 @@ public class Level {
         this.width= width;
         this.height = height;
 
-        entities = new ArrayList<>();
+        entities = new LinkedList<>();
 
         tiles = new int[width * height];
         generateLevel();
@@ -52,6 +53,41 @@ public class Level {
         for(Entity e : entities){
             e.render(screen);
         }
+    }
+
+    public List<Entity> getAllEntitiesInQuadrant(int quadrant){
+        List<Entity> list = new ArrayList<>();
+        for(Entity e : entities){
+            if(e.getQuadrant() == quadrant) list.add(e);
+        }
+
+        return list;
+    }
+
+    public List<Entity> getAllEntitiesOfType(EntityType type){
+        List<Entity> list = new ArrayList<>();
+        for(Entity e : entities){
+            if(e.getType() == type) list.add(e);
+        }
+
+        return list;
+    }
+
+    public Entity getAllEntityOfType(EntityType type){
+        for(Entity e : entities){
+            if(e.getType() == type) return e;
+        }
+
+        return null;
+    }
+
+    public List<Entity> getAllEntitiesOfTypeInQuadrant(EntityType type, int quadrant){
+        List<Entity> list = new ArrayList<>();
+        for(Entity e : entities){
+            if(e.getType() == type && e.getQuadrant() == quadrant) list.add(e);
+        }
+
+        return list;
     }
 
     public Tile getTile(int x, int y){
