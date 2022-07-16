@@ -1,4 +1,4 @@
-package com.sheep.game.entity.mob;
+package com.sheep.game.entity.mob.EnemyUnits;
 
 import com.sheep.game.Game;
 import com.sheep.game.entity.EntityType;

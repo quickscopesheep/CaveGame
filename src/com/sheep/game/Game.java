@@ -1,6 +1,6 @@
 package com.sheep.game;
 
-import com.sheep.game.entity.mob.Husk;
+import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.CaveLevel.CaveLevel;
