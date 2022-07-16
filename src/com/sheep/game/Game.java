@@ -8,6 +8,7 @@ import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.CaveLevel.CaveLevel;
 import com.sheep.game.level.Level;
 import com.sheep.game.util.Keyboard;
+import com.sheep.game.util.MathUtil;
 import com.sheep.game.util.Mouse;
 
 import javax.swing.*;
@@ -78,6 +79,20 @@ public class Game extends Canvas implements Runnable{
         else if(yScroll > level.getHeight()*16 - HEIGHT) yScroll = level.getHeight()*16 - HEIGHT;
     }
 
+    void drawMinimap(){
+        for(int y = 0; y < level.getHeight(); y++){
+            for(int x = 0; x < level.getWidth(); x++){
+                if(!level.getTile(x, y).solid()){
+                    screen.pixels[y*screen.getWidth()+x + (screen.getWidth() - level.getWidth())] += 0x141414;
+                }else if(((CaveLevel)level).getSurroundingWallCount(x, y, 3) < 8){
+                    screen.pixels[y*screen.getWidth()+x + (screen.getWidth() - level.getWidth())] += 0x090909;
+                }
+            }
+        }
+
+        screen.pixels[(int)player.getY()/16*screen.getWidth()+(int)player.getX()/16+(screen.getWidth() - level.getWidth())] = 0x555555;
+    }
+
     void render(){
         BufferStrategy bs = getBufferStrategy();
         if(bs == null){
@@ -89,6 +104,8 @@ public class Game extends Canvas implements Runnable{
         screen.clear();
 
         level.render(xScroll, yScroll, screen);
+
+        drawMinimap();
 
         for(int i = 0; i < pixels.length; i++){
             pixels[i] = screen.pixels[i];

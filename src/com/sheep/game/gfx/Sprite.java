@@ -9,7 +9,11 @@ public class Sprite {
     //level
     public static final Sprite wallSprite = new Sprite(0, 0, 16, 16, SpriteSheet.caveTiles);
     public static final Sprite floor = new Sprite(1, 0, 16, 16, SpriteSheet.caveTiles);
-    public static final Sprite enemySpawner = new Sprite(0, 0, 16, 16, SpriteSheet.caveEntities);
+    public static final Sprite skull = new Sprite(0, 0, 16, 16, SpriteSheet.caveEntities);
+
+    public static final Sprite chest_closed = new Sprite(0, 1, 16, 16, SpriteSheet.caveEntities);
+
+    public static final Sprite chest_open = new Sprite(0, 2, 16, 16, SpriteSheet.caveEntities);
 
     //mob
     public static final Sprite player = new Sprite(0, 0, 16, 18, SpriteSheet.Mobs);

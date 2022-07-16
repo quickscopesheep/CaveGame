@@ -35,7 +35,7 @@ public class EnemySpawner extends Entity{
                 if(enemyType < 75){
                     level.Add(currentEnemy = new Husk(x, y, level));
                 }else if(enemyType > 75) {
-                    level.Add(currentEnemy = new Demon(x + random.nextInt(-16, 16), y + random.nextInt(-16, 16), level));
+                    level.Add(currentEnemy = new Demon(x + random.nextInt(-8, 8), y + random.nextInt(-8, 8), level));
                 }
             }
         }

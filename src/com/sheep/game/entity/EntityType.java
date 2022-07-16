@@ -5,5 +5,5 @@ public enum EntityType {
     EnemySpawner,
     Husk,
     Demon,
-    PlayerAttack
+    Chest
 }

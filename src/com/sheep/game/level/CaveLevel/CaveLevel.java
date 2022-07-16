@@ -1,6 +1,7 @@
 package com.sheep.game.level.CaveLevel;
 
 import com.sheep.game.entity.EnemySpawner;
+import com.sheep.game.entity.mob.Chest;
 import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.level.Level;
 import com.sheep.game.level.tiles.Tile;
@@ -19,8 +20,8 @@ public class CaveLevel extends Level {
 
     private static final int startAreaInfluence = 3;
 
-    private static final int enemySpawnIterations = 1000;
     private static final int minEnemies = 48;
+    private static final int minChests = 8;
 
     private final long seed;
 
@@ -65,7 +66,7 @@ public class CaveLevel extends Level {
     void spawnEnemies(Random random){
         List<Coord> mobSpawnCoords = new ArrayList<>();
 
-        for(int iterations = 0; iterations < enemySpawnIterations; iterations++) {
+        for(int iterations = 0; iterations < 1000; iterations++) {
             int x = random.nextInt(width - 1);
             int y = random.nextInt(height - 1);
 
@@ -96,6 +97,39 @@ public class CaveLevel extends Level {
 
     }
 
+    void spawnChests(Random random){
+        List<Coord> chestSpawnCoords = new ArrayList<>();
+
+        for(int iterations = 0; iterations < 1000; iterations++) {
+            int x = random.nextInt(width - 1);
+            int y = random.nextInt(height - 1);
+
+            if (MathUtil.Distance(x, y, playerStart.x, playerStart.y) > 16) {
+                if (getSurroundingWallCount(x, y, 4) == 0) {
+                    if (chestSpawnCoords.size() > 0) {
+                        boolean valid = true;
+                        for (Coord c : chestSpawnCoords) {
+                            if (MathUtil.Distance(x, y, c.x, c.y) < 8) {
+                                valid = false;
+                                break;
+                            }
+                        }
+                        if (valid) {
+                            chestSpawnCoords.add(new Coord(x, y));
+                            if (chestSpawnCoords.size() == minChests) break;
+                        }
+                    } else {
+                        chestSpawnCoords.add(new Coord(x, y));
+                    }
+                }
+            }
+        }
+
+        for(Coord c : chestSpawnCoords) {
+            this.Add(new Chest(c.x * 16, c.y * 16, this));
+        }
+    }
+
     @Override
     protected void generateLevel() {
         super.generateLevel();
@@ -124,6 +158,7 @@ public class CaveLevel extends Level {
         }
 
         spawnEnemies(random);
+        spawnChests(random);
     }
 
     @Override
