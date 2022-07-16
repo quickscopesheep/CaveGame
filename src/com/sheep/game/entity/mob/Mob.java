@@ -1,10 +1,9 @@
 package com.sheep.game.entity.mob;
 
 import com.sheep.game.entity.Entity;
+import com.sheep.game.entity.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.Level;
-import com.sheep.game.level.tiles.Tile;
-import com.sheep.game.util.Keyboard;
 
 public class Mob extends Entity {
     protected int dir;

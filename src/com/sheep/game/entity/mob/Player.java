@@ -1,11 +1,10 @@
 package com.sheep.game.entity.mob;
 
+import com.sheep.game.entity.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
 import com.sheep.game.util.Keyboard;
-
-import java.awt.desktop.SystemSleepEvent;
 
 public class Player extends Mob{
     private static final float moveSpeed = (float) 48 / 60;

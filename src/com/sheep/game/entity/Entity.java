@@ -1,6 +1,5 @@
 package com.sheep.game.entity;
 
-import com.sheep.game.entity.mob.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.Level;
 

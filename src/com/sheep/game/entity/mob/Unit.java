@@ -1,6 +1,7 @@
 package com.sheep.game.entity.mob;
 
 import com.sheep.game.Game;
+import com.sheep.game.entity.EntityType;
 import com.sheep.game.level.Level;
 import com.sheep.game.util.MathUtil;
 

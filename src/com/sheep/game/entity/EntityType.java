@@ -1,4 +1,4 @@
-package com.sheep.game.entity.mob;
+package com.sheep.game.entity;
 
 public enum EntityType {
     Player,

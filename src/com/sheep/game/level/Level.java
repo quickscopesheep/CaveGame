@@ -1,15 +1,13 @@
 package com.sheep.game.level;
 
 import com.sheep.game.entity.Entity;
-import com.sheep.game.entity.mob.EntityType;
+import com.sheep.game.entity.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.tiles.Tile;
-import com.sheep.game.util.MathUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 public class Level {
     protected int width, height;
