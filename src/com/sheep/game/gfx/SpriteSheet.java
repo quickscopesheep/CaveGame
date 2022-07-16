@@ -13,8 +13,6 @@ public class SpriteSheet {
     public static final SpriteSheet caveEntities = new SpriteSheet("/sprites/caveEntities.png", 64, 64);
     public static final SpriteSheet Mobs = new SpriteSheet("/sprites/Mobs.png", 64, 72);
 
-    public static final SpriteSheet WeaponIcons = new SpriteSheet("/sprites/weaponIcons.png", 64, 64);
-
     public SpriteSheet(String path, int width, int height){
         this.path = path;
         this.width = width;
