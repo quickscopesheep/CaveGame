@@ -30,17 +30,13 @@ public class EnemySpawner extends Entity{
         else {
             if(currentEnemy == null || currentEnemy.isRemoved()){
                 spawnTick = 0;
-                int enemyType = random.nextInt(2);
+                int enemyType = random.nextInt(100);
 
-                switch (enemyType){
-                    case 0 ->{
-                        level.Add(currentEnemy = new Husk(x, y, level));
-                    }
-                    case 1 ->{
-                        level.Add(currentEnemy = new Demon(x, y, level));
-                    }
+                if(enemyType < 75){
+                    level.Add(currentEnemy = new Husk(x, y, level));
+                }else if(enemyType > 75) {
+                    level.Add(currentEnemy = new Demon(x, y, level));
                 }
-
             }
         }
     }

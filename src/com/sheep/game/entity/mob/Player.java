@@ -1,13 +1,16 @@
 package com.sheep.game.entity.mob;
 
+import com.sheep.game.entity.Entity;
 import com.sheep.game.entity.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
 import com.sheep.game.util.Keyboard;
+import com.sheep.game.util.MathUtil;
 
 public class Player extends Mob{
     private static final float moveSpeed = (float) 48 / 60;
+
     boolean moving;
     int frame;
 
@@ -32,8 +35,11 @@ public class Player extends Mob{
 
         float mag = (float)Math.sqrt(inputX*inputX + inputY*inputY);
 
-        float moveX = ((float)inputX/mag) * moveSpeed;
-        float moveY = ((float)inputY/mag) * moveSpeed;
+        float dirX = (float)inputX/mag;
+        float dirY = (float)inputY/mag;
+
+        float moveX = dirX*moveSpeed;
+        float moveY = dirY*moveSpeed;
 
         if(inputX == 0) moveX = 0;
         if(inputY == 0) moveY = 0;

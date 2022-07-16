@@ -6,10 +6,12 @@ public class Sprite {
     public int[] pixels;
     private SpriteSheet sheet;
 
+    //level
     public static final Sprite wallSprite = new Sprite(0, 0, 16, 16, SpriteSheet.caveTiles);
     public static final Sprite floor = new Sprite(1, 0, 16, 16, SpriteSheet.caveTiles);
     public static final Sprite enemySpawner = new Sprite(0, 0, 16, 16, SpriteSheet.caveEntities);
 
+    //mob
     public static final Sprite player = new Sprite(0, 0, 16, 18, SpriteSheet.Mobs);
     public static final Sprite player_walk = new Sprite(1, 0, 16, 18, SpriteSheet.Mobs);
 
@@ -18,6 +20,11 @@ public class Sprite {
 
     public static final Sprite demon = new Sprite(0, 2, 16, 18, SpriteSheet.Mobs);
     public static final Sprite demon_walk = new Sprite(1, 2, 16, 18, SpriteSheet.Mobs);
+
+    public static final Sprite player_attack = new Sprite(1, 0, 16, 16, SpriteSheet.caveEntities);
+
+    //icons
+    public static final Sprite swordIcon = new Sprite(0, 0, 16, 32, SpriteSheet.WeaponIcons);
 
     public Sprite(int x, int y, int w, int h, SpriteSheet sheet){
         this.width = w;

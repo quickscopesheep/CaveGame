@@ -22,26 +22,25 @@ public class Demon extends Unit{
         super.tick();
         frame++;
         if(frame > 128) frame = 0;
-        if(quadrant == Game.player.getQuadrant()){
-            float playerX = Game.player.getX();
-            float playerY = Game.player.getY();
 
-            float dirX = MathUtil.NormalizeX(playerX - this.x, playerY - this.y) * .8f;
-            float dirY = MathUtil.NormalizeY(playerX - this.x, playerY - this.y);
+        float playerX = Game.player.getX();
+        float playerY = Game.player.getY();
 
-            if(dirX > 0) dir = 1;
-            if(dirX < 0) dir = 0;
+        float dirX = MathUtil.NormalizeX(playerX - this.x, playerY - this.y) * .8f;
+        float dirY = MathUtil.NormalizeY(playerX - this.x, playerY - this.y);
 
-            if(canSeePlayer()) {
-                if (dstToPlayer() > 4 * 16) {
-                    moving = true;
-                    move(dirX * moveSpeed, dirY * moveSpeed);
-                } else if (dstToPlayer() < 3 * 16) {
-                    moving = true;
-                    move(-dirX * moveSpeed, -dirY * moveSpeed);
-                } else {
-                    moving = false;
-                }
+        if(dirX > 0) dir = 1;
+        if(dirX < 0) dir = 0;
+
+        if(canSeePlayer()) {
+            if (dstToPlayer() > 4 * 16) {
+                moving = true;
+                move(dirX * moveSpeed, dirY * moveSpeed);
+            } else if (dstToPlayer() < 2 * 16) {
+                moving = true;
+                move(-dirX * moveSpeed, -dirY * moveSpeed);
+            } else {
+                moving = false;
             }
         }
     }

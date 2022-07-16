@@ -24,26 +24,23 @@ public class Husk extends Unit{
         super.tick();
         frame++;
         if(frame > 128) frame = 0;
-        if(quadrant == Game.player.getQuadrant()){
-            float playerX = Game.player.getX();
-            float playerY = Game.player.getY();
 
-            float dirX = MathUtil.NormalizeX(playerX - this.x, playerY - this.y) * .8f;
-            float dirY = MathUtil.NormalizeY(playerX - this.x, playerY - this.y);
+        float playerX = Game.player.getX();
+        float playerY = Game.player.getY();
+        float dirX = MathUtil.NormalizeX(playerX - this.x, playerY - this.y) * .8f;
+        float dirY = MathUtil.NormalizeY(playerX - this.x, playerY - this.y);
 
-            if(damageCoolDown > 0) damageCoolDown--;
-            if(moveCoolDown > 0) moveCoolDown--;
-
-            if(canSeePlayer() && dstToPlayer() > 5 && moveCoolDown <= 0){
-                moving = true;
-                move(dirX * moveSpeed, dirY * moveSpeed);
-            }else{
-                moving = false;
-                if(damageCoolDown <= 0 && canSeePlayer()){
-                    Game.player.Damage(10, dirX * 20, dirY * 20, 10);
-                    damageCoolDown = 60;
-                    moveCoolDown = 15;
-                }
+        if(damageCoolDown > 0) damageCoolDown--;
+        if(moveCoolDown > 0) moveCoolDown--;
+        if(canSeePlayer() && dstToPlayer() > 5 && moveCoolDown <= 0){
+            moving = true;
+            move(dirX * moveSpeed, dirY * moveSpeed);
+        }else{
+            moving = false;
+            if(damageCoolDown <= 0 && canSeePlayer()){
+                Game.player.Damage(10, dirX * 20, dirY * 20, 10);
+                damageCoolDown = 60;
+                moveCoolDown = 15;
             }
         }
     }

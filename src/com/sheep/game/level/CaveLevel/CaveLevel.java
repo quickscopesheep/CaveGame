@@ -20,7 +20,7 @@ public class CaveLevel extends Level {
     private static final int startAreaInfluence = 3;
 
     private static final int enemySpawnIterations = 1000;
-    private static final int minEnemies = 32;
+    private static final int minEnemies = 48;
 
     private final long seed;
 
@@ -74,7 +74,7 @@ public class CaveLevel extends Level {
                     if (mobSpawnCoords.size() > 0) {
                         boolean valid = true;
                         for (Coord c : mobSpawnCoords) {
-                            if (MathUtil.Distance(x, y, c.x, c.y) < 5) {
+                            if (MathUtil.Distance(x, y, c.x, c.y) < 3) {
                                 valid = false;
                                 break;
                             }
