@@ -5,8 +5,7 @@ import com.sheep.game.level.Level;
 
 public abstract class Entity {
     protected float x, y;
-    int quadrant;
-
+    protected int quadrant;
     EntityType type;
 
     protected Level level;

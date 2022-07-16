@@ -1,5 +1,6 @@
 package com.sheep.game.level.CaveLevel;
 
+import com.sheep.game.entity.EnemySpawner;
 import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.level.Level;
 import com.sheep.game.level.tiles.Tile;
@@ -64,22 +65,35 @@ public class CaveLevel extends Level {
     void spawnEnemies(Random random){
         List<Coord> mobSpawnCoords = new ArrayList<>();
 
-        for(int iterations = 0; iterations < enemySpawnIterations; iterations++){
+        for(int iterations = 0; iterations < enemySpawnIterations; iterations++) {
             int x = random.nextInt(width - 1);
             int y = random.nextInt(height - 1);
 
-            if(MathUtil.Distance(x, y, playerStart.x, playerStart.y) > 8){
-                if(getSurroundingWallCount(x, y, 4) == 0){
-                    mobSpawnCoords.add(new Coord(x, y));
-                    if(mobSpawnCoords.size() == minEnemies) break;
+            if (MathUtil.Distance(x, y, playerStart.x, playerStart.y) > 8) {
+                if (getSurroundingWallCount(x, y, 4) == 0) {
+                    if (mobSpawnCoords.size() > 0) {
+                        boolean valid = true;
+                        for (Coord c : mobSpawnCoords) {
+                            if (MathUtil.Distance(x, y, c.x, c.y) < 5) {
+                                valid = false;
+                                break;
+                            }
+                        }
+                        if (valid) {
+                            mobSpawnCoords.add(new Coord(x, y));
+                            if (mobSpawnCoords.size() == minEnemies) break;
+                        }
+                    } else {
+                        mobSpawnCoords.add(new Coord(x, y));
+                    }
                 }
             }
-
-            for(Coord c : mobSpawnCoords){
-                this.Add(new Husk(c.x*16, c.y*16, this));
-            }
-
         }
+
+        for(Coord c : mobSpawnCoords) {
+            this.Add(new EnemySpawner(c.x * 16, c.y * 16, this));
+        }
+
     }
 
     @Override

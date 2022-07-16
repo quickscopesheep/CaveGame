@@ -1,5 +1,7 @@
 package com.sheep.game;
 
+import com.sheep.game.entity.EnemySpawner;
+import com.sheep.game.entity.mob.EnemyUnits.Demon;
 import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;

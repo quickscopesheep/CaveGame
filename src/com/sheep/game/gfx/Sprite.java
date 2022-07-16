@@ -7,9 +7,8 @@ public class Sprite {
     private SpriteSheet sheet;
 
     public static final Sprite wallSprite = new Sprite(0, 0, 16, 16, SpriteSheet.caveTiles);
-
-    public static final Sprite innerWallSprite = new Sprite(2, 0, 16, 16, SpriteSheet.caveTiles);
     public static final Sprite floor = new Sprite(1, 0, 16, 16, SpriteSheet.caveTiles);
+    public static final Sprite enemySpawner = new Sprite(0, 0, 16, 16, SpriteSheet.caveEntities);
 
     public static final Sprite player = new Sprite(0, 0, 16, 18, SpriteSheet.Mobs);
     public static final Sprite player_walk = new Sprite(1, 0, 16, 18, SpriteSheet.Mobs);
@@ -17,6 +16,8 @@ public class Sprite {
     public static final Sprite husk = new Sprite(0, 1, 16, 18, SpriteSheet.Mobs);
     public static final Sprite husk_walk = new Sprite(1, 1, 16, 18, SpriteSheet.Mobs);
 
+    public static final Sprite demon = new Sprite(0, 2, 16, 18, SpriteSheet.Mobs);
+    public static final Sprite demon_walk = new Sprite(1, 2, 16, 18, SpriteSheet.Mobs);
 
     public Sprite(int x, int y, int w, int h, SpriteSheet sheet){
         this.width = w;

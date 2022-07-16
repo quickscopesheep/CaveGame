@@ -15,11 +15,17 @@ public class Level {
 
     List<Entity> entities;
 
+    List<Entity> entitiesToAdd;
+    List<Entity> entitiesToRemove;
+
     public Level(int width, int height){
         this.width= width;
         this.height = height;
 
         entities = new LinkedList<>();
+
+        entitiesToAdd = new LinkedList<>();
+        entitiesToRemove = new LinkedList<>();
 
         tiles = new int[width * height];
         generateLevel();
@@ -33,6 +39,11 @@ public class Level {
         for(Entity e : entities){
             e.tick();
         }
+
+        entities.addAll(entitiesToAdd);
+        entities.removeAll(entitiesToRemove);
+        entitiesToAdd.clear();
+        entitiesToRemove.clear();
     }
 
     public void render(int xScroll, int yScroll, Screen screen){
@@ -105,10 +116,10 @@ public class Level {
     }
 
     public void Remove(Entity entity){
-        entities.remove(entity);
+        entitiesToRemove.add(entity);
     }
 
     public void Add(Entity entity){
-        entities.add(entity);
+        entitiesToAdd.add(entity);
     }
 }

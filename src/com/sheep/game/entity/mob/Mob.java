@@ -76,7 +76,7 @@ public class Mob extends Entity {
 
     }
 
-    private boolean collision(float ax, float ay){
+    protected boolean collision(float ax, float ay){
         float x0 = x + ax + xBoundOffset - xBound/2;
         float x1 = x + ax + xBoundOffset + xBound/2;
         float y0 = y + ay + yBoundOffset - yBound/2;
