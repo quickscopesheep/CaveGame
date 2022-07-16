@@ -39,9 +39,7 @@ public class Game extends Canvas implements Runnable{
 
         level = new CaveLevel(64, 64, 1);
 
-        level.Add(player = new Player(16*32, 16*32, level));
-
-        level.Add(new Husk(16 * 32 + 24, 16*32, level));
+        level.Add(player = new Player(((CaveLevel)level).getPlayerStart().x*16, ((CaveLevel)level).getPlayerStart().y*16, level));
 
         Keyboard keyboard = new Keyboard();
         Mouse mouse = new Mouse();

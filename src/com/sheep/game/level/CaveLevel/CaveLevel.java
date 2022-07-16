@@ -1,9 +1,13 @@
 package com.sheep.game.level.CaveLevel;
 
+import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.level.Level;
 import com.sheep.game.level.tiles.Tile;
+import com.sheep.game.util.Coord;
+import com.sheep.game.util.MathUtil;
 
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class CaveLevel extends Level {
@@ -14,17 +18,22 @@ public class CaveLevel extends Level {
 
     private static final int startAreaInfluence = 3;
 
+    private static final int enemySpawnIterations = 1000;
+    private static final int minEnemies = 32;
+
     private final long seed;
+
+    private Coord playerStart;
 
     public CaveLevel(int width, int height, long seed) {
         super(width, height);
         this.seed = seed;
     }
 
-    public int getSurroundingWallCount(int gridX, int gridY) {
+    public int getSurroundingWallCount(int gridX, int gridY, int radius) {
         int wallCount = 0;
-        for (int neighbourX = gridX - 1; neighbourX <= gridX + 1; neighbourX ++) {
-            for (int neighbourY = gridY - 1; neighbourY <= gridY + 1; neighbourY ++) {
+        for (int neighbourX = gridX - ((radius-1)/2); neighbourX <= gridX + ((radius-1)/2); neighbourX ++) {
+            for (int neighbourY = gridY - ((radius-1)/2); neighbourY <= gridY + ((radius-1)/2); neighbourY ++) {
                 if (neighbourX >= 0 && neighbourX < width && neighbourY >= 0 && neighbourY < height) {
                     if (neighbourX != gridX || neighbourY != gridY) {
                         wallCount += tiles[neighbourY*width+neighbourX];
@@ -42,13 +51,34 @@ public class CaveLevel extends Level {
     private void smoothMap(){
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
-                int neighbourCount = getSurroundingWallCount(x, y);
+                int neighbourCount = getSurroundingWallCount(x, y, 3);
 
                 if(neighbourCount > 4)
                     tiles[y*width+x] = 1;
                 else if(neighbourCount < 4)
                     tiles[y*width+x] = 0;
             }
+        }
+    }
+
+    void spawnEnemies(Random random){
+        List<Coord> mobSpawnCoords = new ArrayList<>();
+
+        for(int iterations = 0; iterations < enemySpawnIterations; iterations++){
+            int x = random.nextInt(width - 1);
+            int y = random.nextInt(height - 1);
+
+            if(MathUtil.Distance(x, y, playerStart.x, playerStart.y) > 8){
+                if(getSurroundingWallCount(x, y, 4) == 0){
+                    mobSpawnCoords.add(new Coord(x, y));
+                    if(mobSpawnCoords.size() == minEnemies) break;
+                }
+            }
+
+            for(Coord c : mobSpawnCoords){
+                this.Add(new Husk(c.x*16, c.y*16, this));
+            }
+
         }
     }
 
@@ -73,9 +103,13 @@ public class CaveLevel extends Level {
             }
         }
 
+        playerStart = new Coord(centerX,  centerY);
+
         for(int i = 0; i < smoothGenerations; i++){
             smoothMap();
         }
+
+        spawnEnemies(random);
     }
 
     @Override
@@ -89,5 +123,9 @@ public class CaveLevel extends Level {
 
     public long getSeed() {
         return seed;
+    }
+
+    public Coord getPlayerStart() {
+        return playerStart;
     }
 }

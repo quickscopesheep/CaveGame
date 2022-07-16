@@ -22,7 +22,7 @@ public abstract class Entity {
     public void tick(){
         int quadX = (int)((x/16)/16);
         int quadY = (int)((y/16)/16);
-        quadrant = quadY*level.getWidth()+quadX;
+        quadrant = quadY*(level.getWidth()/16)+quadX;
     }
 
     public abstract void render(Screen screen);

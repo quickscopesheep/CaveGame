@@ -11,11 +11,11 @@ public class Sprite {
     public static final Sprite innerWallSprite = new Sprite(2, 0, 16, 16, SpriteSheet.caveTiles);
     public static final Sprite floor = new Sprite(1, 0, 16, 16, SpriteSheet.caveTiles);
 
-    public static final Sprite player = new Sprite(0, 0, 16, 18, SpriteSheet.player);
-    public static final Sprite player_walk = new Sprite(1, 0, 16, 18, SpriteSheet.player);
+    public static final Sprite player = new Sprite(0, 0, 16, 18, SpriteSheet.Mobs);
+    public static final Sprite player_walk = new Sprite(1, 0, 16, 18, SpriteSheet.Mobs);
 
-    public static final Sprite husk = new Sprite(0, 0, 16, 18, SpriteSheet.husk);
-    public static final Sprite husk_walk = new Sprite(1, 0, 16, 18, SpriteSheet.husk);
+    public static final Sprite husk = new Sprite(0, 1, 16, 18, SpriteSheet.Mobs);
+    public static final Sprite husk_walk = new Sprite(1, 1, 16, 18, SpriteSheet.Mobs);
 
 
     public Sprite(int x, int y, int w, int h, SpriteSheet sheet){
