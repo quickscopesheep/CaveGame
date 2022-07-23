@@ -14,7 +14,7 @@ public class Demon extends Unit{
     int frame;
 
     public Demon(float x, float y, Level level) {
-        super(x, y, 10, 16, 0, 2, 6*16, EntityType.Demon, level);
+        super(x, y, 10, 16, 0, 2, 6*16, EntityType.DEMON, level);
     }
 
     @Override
@@ -29,8 +29,8 @@ public class Demon extends Unit{
         float dirX = MathUtil.NormalizeX(playerX - this.x, playerY - this.y) * .8f;
         float dirY = MathUtil.NormalizeY(playerX - this.x, playerY - this.y);
 
-        if(dirX > 0) dir = 1;
-        if(dirX < 0) dir = 0;
+        if(dirX > 0) dirX = 1;
+        if(dirX < 0) dirX = -1;
 
         if(canSeePlayer()) {
             if (dstToPlayer() > 4 * 16) {
@@ -60,9 +60,9 @@ public class Demon extends Unit{
     public void render(Screen screen) {
         int anim = frame / 12 % 2;
         if(moving){
-            screen.renderSpriteLit((int) x - 8, (int) y - 8, anim == 1 ? Sprite.demon : Sprite.demon_walk, dir == 0);
+            screen.renderSpriteLit((int) x - 8, (int) y - 8, anim == 1 ? Sprite.demon : Sprite.demon_walk, dirX == -1);
         }else{
-            screen.renderSpriteLit((int) x - 8, (int) y - 8, Sprite.demon, dir == 0);
+            screen.renderSpriteLit((int) x - 8, (int) y - 8, Sprite.demon, dirX == -1);
         }
     }
 }

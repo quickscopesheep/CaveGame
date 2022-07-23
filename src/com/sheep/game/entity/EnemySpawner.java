@@ -4,7 +4,6 @@ import com.sheep.game.entity.mob.EnemyUnits.Demon;
 import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.entity.mob.EnemyUnits.Unit;
 import com.sheep.game.gfx.Screen;
-import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
 
 import java.util.Random;
@@ -19,7 +18,7 @@ public class EnemySpawner extends Entity{
     Random random = new Random();
 
     public EnemySpawner(float x, float y, Level level) {
-        super(x, y, EntityType.EnemySpawner, level);
+        super(x, y, EntityType.ENEMY_SPAWNER, level);
         flipped = random.nextBoolean();
         spawnTick = spawnInterval;
     }

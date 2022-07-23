@@ -16,7 +16,7 @@ public class Husk extends Unit{
     int frame;
 
     public Husk(float x, float y, Level level) {
-        super(x, y, 10, 15, 0, 1, 6*16, EntityType.Husk, level);
+        super(x, y, 10, 15, 0, 1, 6*16, EntityType.HUSK, level);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class Husk extends Unit{
 
         if(damageCoolDown > 0) damageCoolDown--;
         if(moveCoolDown > 0) moveCoolDown--;
-        if(canSeePlayer() && dstToPlayer() > 5 && moveCoolDown <= 0){
+        if(canSeePlayer() && !collision(Game.player) && moveCoolDown <= 0){
             moving = true;
             move(dirX * moveSpeed, dirY * moveSpeed);
         }else{
@@ -49,9 +49,9 @@ public class Husk extends Unit{
     public void render(Screen screen) {
         int anim = frame / 12 % 2;
         if(moving){
-            screen.renderSpriteLit((int) x - 8, (int) y - 8, anim == 1 ? Sprite.husk : Sprite.husk_walk, dir == 0);
+            screen.renderSpriteLit((int) x - 8, (int) y - 8, anim == 1 ? Sprite.husk : Sprite.husk_walk, dirX == -1);
         }else{
-            screen.renderSpriteLit((int) x - 8, (int) y - 8, Sprite.husk, dir == 0);
+            screen.renderSpriteLit((int) x - 8, (int) y - 8, Sprite.husk, dirX == -1);
         }
     }
 }

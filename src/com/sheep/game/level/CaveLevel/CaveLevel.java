@@ -23,13 +23,10 @@ public class CaveLevel extends Level {
     private static final int minEnemies = 48;
     private static final int minChests = 8;
 
-    private final long seed;
-
     private Coord playerStart;
 
     public CaveLevel(int width, int height, long seed) {
-        super(width, height);
-        this.seed = seed;
+        super(width, height, seed);
     }
 
     public int getSurroundingWallCount(int gridX, int gridY, int radius) {

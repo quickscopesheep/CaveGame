@@ -13,14 +13,17 @@ public class Level {
     protected int width, height;
     protected int[] tiles;
 
+    protected final long seed;
+
     List<Entity> entities;
 
     List<Entity> entitiesToAdd;
     List<Entity> entitiesToRemove;
 
-    public Level(int width, int height){
+    public Level(int width, int height, long seed){
         this.width= width;
         this.height = height;
+        this.seed = seed;
 
         entities = new LinkedList<>();
 
@@ -64,15 +67,6 @@ public class Level {
         }
     }
 
-    public List<Entity> getAllEntitiesInQuadrant(int quadrant){
-        List<Entity> list = new ArrayList<>();
-        for(Entity e : entities){
-            if(e.getQuadrant() == quadrant) list.add(e);
-        }
-
-        return list;
-    }
-
     public List<Entity> getAllEntitiesOfType(EntityType type){
         List<Entity> list = new ArrayList<>();
         for(Entity e : entities){
@@ -88,15 +82,6 @@ public class Level {
         }
 
         return null;
-    }
-
-    public List<Entity> getAllEntitiesOfTypeInQuadrant(EntityType type, int quadrant){
-        List<Entity> list = new ArrayList<>();
-        for(Entity e : entities){
-            if(e.getType() == type && e.getQuadrant() == quadrant) list.add(e);
-        }
-
-        return list;
     }
 
     public Tile getTile(int x, int y){
@@ -121,5 +106,9 @@ public class Level {
 
     public void Add(Entity entity){
         entitiesToAdd.add(entity);
+    }
+
+    private long getSeed(){
+        return seed;
     }
 }

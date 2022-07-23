@@ -1,5 +1,7 @@
 package com.sheep.game.util;
 
+import com.sheep.game.entity.mob.Mob;
+
 public class MathUtil {
     public static float NormalizeX(float x, float y){
         float mag = (float) Math.sqrt((x*x)+(y*y));
@@ -29,5 +31,26 @@ public class MathUtil {
         if(a > max) a = max;
         else if(a < min) a = min;
         return a;
+    }
+
+    public boolean collision(float x1, float y1, float w1, float h1,
+                             float x2, float y2, float w2, float h2){
+        return x1 < x2 + w2 &&
+                x1 + w1 > x2 &&
+                y1 < y2 + h2 &&
+                h1 + y1 > y2;
+    }
+
+    public boolean collision(float x1, float y1, float w1, float h1,
+                             Mob other){
+        float x2 = other.getX();
+        float y2 = other.getY();
+        float w2 = other.getXBound();
+        float h2 = other.getYBoundOffset();
+
+        return x1 < x2 + w2 &&
+                x1 + w1 > x2 &&
+                y1 < y2 + h2 &&
+                h1 + y1 > y2;
     }
 }

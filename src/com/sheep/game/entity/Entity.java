@@ -5,7 +5,6 @@ import com.sheep.game.level.Level;
 
 public abstract class Entity {
     protected float x, y;
-    protected int quadrant;
     EntityType type;
 
     protected Level level;
@@ -19,9 +18,6 @@ public abstract class Entity {
     }
 
     public void tick(){
-        int quadX = (int)((x/16)/16);
-        int quadY = (int)((y/16)/16);
-        quadrant = quadY*(level.getWidth()/16)+quadX;
     }
 
     public abstract void render(Screen screen);
@@ -53,10 +49,6 @@ public abstract class Entity {
 
     public boolean isRemoved() {
         return removed;
-    }
-
-    public int getQuadrant() {
-        return quadrant;
     }
 
     public EntityType getType() {

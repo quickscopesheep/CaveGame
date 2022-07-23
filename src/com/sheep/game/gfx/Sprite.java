@@ -8,28 +8,38 @@ public class Sprite {
 
     //level
     public static final Sprite wallSprite = new Sprite(0, 0, 16, 16, SpriteSheet.caveTiles);
-    public static final Sprite floor = new Sprite(1, 0, 16, 16, SpriteSheet.caveTiles);
+    public static final Sprite floor = new Sprite(16, 0, 16, 16, SpriteSheet.caveTiles);
+
     public static final Sprite skull = new Sprite(0, 0, 16, 16, SpriteSheet.caveEntities);
 
-    public static final Sprite chest_closed = new Sprite(0, 1, 16, 16, SpriteSheet.caveEntities);
+    public static final Sprite chest_closed = new Sprite(0, 16, 16, 16, SpriteSheet.caveEntities);
+    public static final Sprite chest_open = new Sprite(0, 2*16, 16, 16, SpriteSheet.caveEntities);
 
-    public static final Sprite chest_open = new Sprite(0, 2, 16, 16, SpriteSheet.caveEntities);
+    public static final Sprite door = new Sprite(16, 0, 16, 16, SpriteSheet.caveEntities);
 
     //mob
     public static final Sprite player = new Sprite(0, 0, 16, 18, SpriteSheet.Mobs);
-    public static final Sprite player_walk = new Sprite(1, 0, 16, 18, SpriteSheet.Mobs);
+    public static final Sprite player_walk = new Sprite(16, 0, 16, 18, SpriteSheet.Mobs);
 
-    public static final Sprite husk = new Sprite(0, 1, 16, 18, SpriteSheet.Mobs);
-    public static final Sprite husk_walk = new Sprite(1, 1, 16, 18, SpriteSheet.Mobs);
+    public static final Sprite husk = new Sprite(0, 18, 16, 18, SpriteSheet.Mobs);
+    public static final Sprite husk_walk = new Sprite(16, 18, 16, 18, SpriteSheet.Mobs);
 
-    public static final Sprite demon = new Sprite(0, 2, 16, 18, SpriteSheet.Mobs);
-    public static final Sprite demon_walk = new Sprite(1, 2, 16, 18, SpriteSheet.Mobs);
+    public static final Sprite demon = new Sprite(0, 2*18, 16, 18, SpriteSheet.Mobs);
+    public static final Sprite demon_walk = new Sprite(16, 2*18, 16, 18, SpriteSheet.Mobs);
+
+    //items
+    public static final Sprite item_sword = new Sprite(16, 0, 16, 16, SpriteSheet.items);
+    public static final Sprite item_potion_red = new Sprite(0, 16*2, 16, 16, SpriteSheet.items);
+
+    //UI
+    public static final Sprite UI_ItemFrame = new Sprite(0, 0, 16, 16, SpriteSheet.UI);
+    public static final Sprite UI_ItemFrame_select = new Sprite(16, 0, 16, 16, SpriteSheet.UI);
 
     public Sprite(int x, int y, int w, int h, SpriteSheet sheet){
         this.width = w;
         this.height = h;
-        this.x = x * w;
-        this.y = y * h;
+        this.x = x;
+        this.y = y;
         this.sheet = sheet;
 
         pixels = new int[w * h];

@@ -1,14 +1,11 @@
 package com.sheep.game;
 
-import com.sheep.game.entity.EnemySpawner;
-import com.sheep.game.entity.mob.EnemyUnits.Demon;
-import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
+import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.CaveLevel.CaveLevel;
 import com.sheep.game.level.Level;
 import com.sheep.game.util.Keyboard;
-import com.sheep.game.util.MathUtil;
 import com.sheep.game.util.Mouse;
 
 import javax.swing.*;
@@ -22,9 +19,11 @@ public class Game extends Canvas implements Runnable{
 
     private Thread thread;
     private JFrame frame;
+
     public static Screen screen;
 
     public static Level level;
+
     public static Player player;
 
     private boolean running;
@@ -39,10 +38,10 @@ public class Game extends Canvas implements Runnable{
 
         frame = new JFrame();
         screen = new Screen(WIDTH, HEIGHT);
+        level = new CaveLevel(64, 64, 0);
 
-        level = new CaveLevel(64, 64, 1);
-
-        level.Add(player = new Player(((CaveLevel)level).getPlayerStart().x*16, ((CaveLevel)level).getPlayerStart().y*16, level));
+        level.Add(player = new Player(((CaveLevel)level).getPlayerStart().x*16, ((CaveLevel)level).getPlayerStart().y*16,
+                level));
 
         Keyboard keyboard = new Keyboard();
         Mouse mouse = new Mouse();
@@ -93,6 +92,18 @@ public class Game extends Canvas implements Runnable{
         screen.pixels[(int)player.getY()/16*screen.getWidth()+(int)player.getX()/16+(screen.getWidth() - level.getWidth())] = 0x555555;
     }
 
+    void drawHotbar(){
+        for(int i = 0; i < player.getItems().length; i++){
+            if(i == player.getCurrentItem())
+                screen.renderSpriteFixed(i*16+i*2+4, 4, Sprite.UI_ItemFrame_select, false);
+            else
+                screen.renderSpriteFixed(i*16+i*2+4, 4, Sprite.UI_ItemFrame, false);
+
+            if(player.getItems()[i] != null)
+                screen.renderSpriteFixed(i*16+i*2+4, 4, player.getItems()[i].getIcon(), false);
+        }
+    }
+
     void render(){
         BufferStrategy bs = getBufferStrategy();
         if(bs == null){
@@ -105,7 +116,9 @@ public class Game extends Canvas implements Runnable{
 
         level.render(xScroll, yScroll, screen);
 
-        drawMinimap();
+        //drawMinimap();
+
+        drawHotbar();
 
         for(int i = 0; i < pixels.length; i++){
             pixels[i] = screen.pixels[i];
