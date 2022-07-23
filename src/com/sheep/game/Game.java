@@ -104,6 +104,19 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
+    void drawHealthBar(){
+        for(int i = 0; i < 32; i++){
+            float t = i/32f;
+            if(t < player.getHealth()/25){
+                for(int j = 0; j < 4; j++)
+                    screen.pixels[(4+j)*screen.getWidth()+screen.getWidth() - 32 - 4+i] = 0x00ff00;
+            }else{
+                for(int j = 0; j < 4; j++)
+                    screen.pixels[(4+j)*screen.getWidth()+screen.getWidth() - 32 - 4+i] = 0x232323;
+            }
+        }
+    }
+
     void render(){
         BufferStrategy bs = getBufferStrategy();
         if(bs == null){
@@ -118,11 +131,12 @@ public class Game extends Canvas implements Runnable{
 
         //drawMinimap();
 
-        drawHotbar();
-
-        for(int i = 0; i < pixels.length; i++){
-            pixels[i] = screen.pixels[i];
+        if(!player.isRemoved()){
+            drawHotbar();
+            drawHealthBar();
         }
+
+        System.arraycopy(screen.pixels, 0, pixels, 0, pixels.length);
 
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 

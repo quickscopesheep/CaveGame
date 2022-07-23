@@ -16,7 +16,7 @@ public class Husk extends Unit{
     int frame;
 
     public Husk(float x, float y, Level level) {
-        super(x, y, 10, 15, 0, 1, 6*16, EntityType.HUSK, level);
+        super(x, y, 10, 15, 0, 1, 25, 6*16, EntityType.HUSK, level);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Husk extends Unit{
         }else{
             moving = false;
             if(damageCoolDown <= 0 && canSeePlayer()){
-                Game.player.Damage(10, dirX * 20, dirY * 20, 10);
+                Game.player.Damage(5, dirX * 20, dirY * 20, 10);
                 damageCoolDown = 60;
                 moveCoolDown = 15;
             }

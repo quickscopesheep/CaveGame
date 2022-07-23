@@ -9,7 +9,8 @@ public class Chest extends Mob{
     boolean open;
 
     public Chest(float x, float y, Level level) {
-        super(x, y, 16, 16, EntityType.CHEST, level);
+        super(x, y, 16, 16, 9999, EntityType.CHEST, level);
+        health = 9999;
         open = false;
     }
 

@@ -21,8 +21,8 @@ public class Player extends Mob{
     boolean itemButtonLast;
 
     public Player(int x, int y, Level level) {
-        super(x, y, 12, 14, 0, 2, EntityType.PLAYER, level);
-        health = 100;
+        super(x, y, 12, 14, 0, 2, 25, EntityType.PLAYER, level);
+        health = 25;
         items = new Item[3];
         items[0] = new SmallSword(this);
         items[1] = new Potion(this);
@@ -100,9 +100,9 @@ public class Player extends Mob{
     public void render(Screen screen) {
         int anim = frame / 12 % 2;
         if(moving){
-            screen.renderSpriteLit((int) x - 8, (int) y - 8, anim == 1 ? Sprite.player : Sprite.player_walk, dirX == -1);
+            screen.renderSpriteLit((int) x - 8, (int) y-8, anim == 1 ? Sprite.player : Sprite.player_walk, dirX == -1);
         }else{
-            screen.renderSpriteLit((int) x - 8, (int) y - 8, Sprite.player, dirX == -1);
+            screen.renderSpriteLit((int) x - 8, (int) y-8, Sprite.player, dirX == -1);
         }
 
         if(item != null)

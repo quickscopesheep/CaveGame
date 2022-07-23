@@ -14,7 +14,7 @@ public class Demon extends Unit{
     int frame;
 
     public Demon(float x, float y, Level level) {
-        super(x, y, 10, 16, 0, 2, 6*16, EntityType.DEMON, level);
+        super(x, y, 10, 16, 0, 2, 25, 6*16, EntityType.DEMON, level);
     }
 
     @Override

@@ -16,31 +16,37 @@ public class Mob extends Entity {
     protected float yBoundOffset;
 
     protected float health;
+    protected float stamina;
+
+    protected float maxStamina;
+    protected float staminaRegenCooldown;
+
     float knockBackX, knockBackY, knockBackTime;
 
     protected Item item;
 
-    public Mob(float x, float y, float xBound, float yBound, EntityType type, Level level) {
+    public Mob(float x, float y, float xBound, float yBound, float health, EntityType type, Level level) {
         super(x, y, type, level);
         this.xBound = xBound;
         this.yBound = yBound;
         this.xBoundOffset = 0;
         this.yBoundOffset = 0;
-        health = 25;
+        this.health = health;
+        dirX = 1;
     }
 
-    public Mob(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, EntityType type, Level level) {
+    public Mob(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, float health, EntityType type, Level level) {
         super(x, y, type, level);
         this.xBound = xBound;
         this.yBound = yBound;
         this.xBoundOffset = xBoundOffset;
         this.yBoundOffset = yBoundOffset;
+        this.health = health;
         dirX = 1;
     }
 
     @Override
     public void tick(){
-        super.tick();
         if(knockBackX > 1 || knockBackX < -1 || knockBackY > 1 || knockBackY < -1){
             float frameKnockBackX = knockBackX / knockBackTime;
             float frameKnockBackY = knockBackY / knockBackTime;
@@ -82,6 +88,8 @@ public class Mob extends Entity {
         this.knockBackY = knockBackY;
         this.knockBackTime = knockBackTime;
 
+        if(health <= 0) Remove();
+
     }
 
     protected boolean collision(float ax, float ay){
@@ -109,7 +117,7 @@ public class Mob extends Entity {
         return item;
     }
 
-    float getHealth(){
+    public float getHealth(){
         return health;
     }
 
