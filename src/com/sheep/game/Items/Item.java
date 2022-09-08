@@ -7,16 +7,16 @@ import com.sheep.game.gfx.Sprite;
 public class Item {
     protected Mob owner;
 
-    float staminaUse;
+    float cooldown;
 
     public Item(Mob owner){
         this.owner = owner;
-        this.staminaUse = 0;
+        this.cooldown = cooldown;
     }
 
-    public Item(Mob owner, float staminaUse){
+    public Item(Mob owner, float cooldown){
         this.owner = owner;
-        this.staminaUse = staminaUse;
+        this.cooldown = cooldown;
     }
     public void render(Screen screen){
 
@@ -32,5 +32,9 @@ public class Item {
 
     public Mob getOwner() {
         return owner;
+    }
+
+    public float getCooldown() {
+        return cooldown;
     }
 }

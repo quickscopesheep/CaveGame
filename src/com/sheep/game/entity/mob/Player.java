@@ -1,8 +1,8 @@
 package com.sheep.game.entity.mob;
 
 import com.sheep.game.Items.Item;
-import com.sheep.game.Items.Potion;
-import com.sheep.game.Items.Weapons.SmallSword;
+import com.sheep.game.Items.medkit;
+import com.sheep.game.Items.pickaxe;
 import com.sheep.game.entity.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
@@ -20,12 +20,14 @@ public class Player extends Mob{
 
     boolean itemButtonLast;
 
+    float useCooldown;
+
     public Player(int x, int y, Level level) {
-        super(x, y, 12, 14, 0, 2, 25, EntityType.PLAYER, level);
+        super(x, y, 12, 14, 0, 2, 25, 25, EntityType.PLAYER, level);
         health = 25;
         items = new Item[3];
-        items[0] = new SmallSword(this);
-        items[1] = new Potion(this);
+        items[0] = new pickaxe(this);
+        items[1] = new medkit(this);
         equip(items[0]);
     }
 
@@ -64,6 +66,13 @@ public class Player extends Mob{
                 equipFromHotbar(0);
         }
         itemButtonLast = itemButton;
+
+        if(Keyboard.USE1 && useCooldown <= 0 && item != null){
+            useCooldown = item.getCooldown();
+            useItem();
+        }
+
+        if(useCooldown > 0) useCooldown--;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.sheep.game.level;
 
 import com.sheep.game.entity.Entity;
 import com.sheep.game.entity.EntityType;
+import com.sheep.game.entity.mob.EnemyUnits.Unit;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.tiles.Tile;
 
@@ -108,7 +109,15 @@ public class Level {
         entitiesToAdd.add(entity);
     }
 
-    private long getSeed(){
+    public long getSeed(){
         return seed;
+    }
+
+    public int getTileIndex(int x, int y){
+        return tiles[y*width+x];
+    }
+
+    public int[] getTiles(){
+        return tiles;
     }
 }

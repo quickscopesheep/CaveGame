@@ -38,7 +38,7 @@ public class Game extends Canvas implements Runnable{
 
         frame = new JFrame();
         screen = new Screen(WIDTH, HEIGHT);
-        level = new CaveLevel(64, 64, 0);
+        level = new CaveLevel(64, 64, System.currentTimeMillis());
 
         level.Add(player = new Player(((CaveLevel)level).getPlayerStart().x*16, ((CaveLevel)level).getPlayerStart().y*16,
                 level));
@@ -82,14 +82,14 @@ public class Game extends Canvas implements Runnable{
         for(int y = 0; y < level.getHeight(); y++){
             for(int x = 0; x < level.getWidth(); x++){
                 if(!level.getTile(x, y).solid()){
-                    screen.pixels[y*screen.getWidth()+x + (screen.getWidth() - level.getWidth())] += 0x141414;
+                    screen.pixels[(y+ screen.getHeight() - level.getHeight())*screen.getWidth()+x + (screen.getWidth() - level.getWidth())] += 0x141414;
                 }else if(((CaveLevel)level).getSurroundingWallCount(x, y, 3) < 8){
-                    screen.pixels[y*screen.getWidth()+x + (screen.getWidth() - level.getWidth())] += 0x090909;
+                    screen.pixels[(y+ screen.getHeight() - level.getHeight())*screen.getWidth()+x + (screen.getWidth() - level.getWidth())] += 0x090909;
                 }
             }
         }
 
-        screen.pixels[(int)player.getY()/16*screen.getWidth()+(int)player.getX()/16+(screen.getWidth() - level.getWidth())] = 0x555555;
+        screen.pixels[(int)(player.getY()/16 + screen.getHeight() - level.getHeight())*screen.getWidth()+(int)player.getX()/16+(screen.getWidth() - level.getWidth())] = 0x555555;
     }
 
     void drawHotbar(){
@@ -107,7 +107,8 @@ public class Game extends Canvas implements Runnable{
     void drawHealthBar(){
         for(int i = 0; i < 32; i++){
             float t = i/32f;
-            if(t < player.getHealth()/25){
+
+            if(t < player.getHealth()/ player.getMaxHealth()){
                 for(int j = 0; j < 4; j++)
                     screen.pixels[(4+j)*screen.getWidth()+screen.getWidth() - 32 - 4+i] = 0x00ff00;
             }else{
@@ -129,7 +130,7 @@ public class Game extends Canvas implements Runnable{
 
         level.render(xScroll, yScroll, screen);
 
-        //drawMinimap();
+        drawMinimap();
 
         if(!player.isRemoved()){
             drawHotbar();

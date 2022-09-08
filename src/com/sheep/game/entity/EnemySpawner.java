@@ -1,6 +1,5 @@
 package com.sheep.game.entity;
 
-import com.sheep.game.entity.mob.EnemyUnits.Demon;
 import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.entity.mob.EnemyUnits.Unit;
 import com.sheep.game.gfx.Screen;
@@ -18,7 +17,7 @@ public class EnemySpawner extends Entity{
     Random random = new Random();
 
     public EnemySpawner(float x, float y, Level level) {
-        super(x, y, EntityType.ENEMY_SPAWNER, level);
+        super(x, y, 0, 0, 0, 0, EntityType.ENEMY_SPAWNER, level);
         flipped = random.nextBoolean();
         spawnTick = spawnInterval;
     }
@@ -29,13 +28,8 @@ public class EnemySpawner extends Entity{
         else {
             if(currentEnemy == null || currentEnemy.isRemoved()){
                 spawnTick = 0;
-                int enemyType = random.nextInt(100);
 
-                if(enemyType < 75){
-                    level.Add(currentEnemy = new Husk(x, y, level));
-                }else if(enemyType > 75) {
-                    level.Add(currentEnemy = new Demon(x + random.nextInt(-8, 8), y + random.nextInt(-8, 8), level));
-                }
+                level.Add(currentEnemy = new Husk(x, y, level));
             }
         }
     }

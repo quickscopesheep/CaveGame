@@ -5,7 +5,6 @@ import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
 
 public class Tile {
-
     public static Tile voidTile = new Tile(new Sprite(16, 16, 0x000000));
     public static Tile wallTile = new WallTile(Sprite.wallSprite);
     public static Tile floorTile = new Tile(Sprite.floor);

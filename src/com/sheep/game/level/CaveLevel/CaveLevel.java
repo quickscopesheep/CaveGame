@@ -35,7 +35,7 @@ public class CaveLevel extends Level {
             for (int neighbourY = gridY - ((radius-1)/2); neighbourY <= gridY + ((radius-1)/2); neighbourY ++) {
                 if (neighbourX >= 0 && neighbourX < width && neighbourY >= 0 && neighbourY < height) {
                     if (neighbourX != gridX || neighbourY != gridY) {
-                        wallCount += tiles[neighbourY*width+neighbourX];
+                        wallCount += tiles[neighbourY*width+neighbourX] != 0 ? 1 : 0;
                     }
                 }
                 else {
@@ -53,7 +53,7 @@ public class CaveLevel extends Level {
                 int neighbourCount = getSurroundingWallCount(x, y, 3);
 
                 if(neighbourCount > 4)
-                    tiles[y*width+x] = 1;
+                    tiles[y*width+x] = 4;
                 else if(neighbourCount < 4)
                     tiles[y*width+x] = 0;
             }
@@ -163,7 +163,7 @@ public class CaveLevel extends Level {
         if(x < 0 || x > width - 1 || y < 0 || y > height - 1)
             return Tile.voidTile;
 
-        if(tiles[x+y*width] == 1) return Tile.wallTile;
+        if(tiles[x+y*width] > 0) return Tile.wallTile;
         else return Tile.floorTile;
     }
 

@@ -9,39 +9,32 @@ import com.sheep.game.level.Level;
 public class Mob extends Entity {
     protected int dirX, dirY;
 
-    protected float xBound;
-    protected float yBound;
-
-    protected float xBoundOffset;
-    protected float yBoundOffset;
-
     protected float health;
+    protected float maxHealth;
     protected float stamina;
-
     protected float maxStamina;
-    protected float staminaRegenCooldown;
-
     float knockBackX, knockBackY, knockBackTime;
 
     protected Item item;
 
-    public Mob(float x, float y, float xBound, float yBound, float health, EntityType type, Level level) {
-        super(x, y, type, level);
-        this.xBound = xBound;
-        this.yBound = yBound;
-        this.xBoundOffset = 0;
-        this.yBoundOffset = 0;
-        this.health = health;
+    public Mob(float x, float y, float xBound, float yBound, float maxHealth, EntityType type, Level level) {
+        super(x, y, xBound, yBound, 0, 0, type, level);
+        this.maxHealth = maxHealth;
+        this.health = maxHealth;
         dirX = 1;
     }
 
-    public Mob(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, float health, EntityType type, Level level) {
-        super(x, y, type, level);
-        this.xBound = xBound;
-        this.yBound = yBound;
-        this.xBoundOffset = xBoundOffset;
-        this.yBoundOffset = yBoundOffset;
-        this.health = health;
+    public Mob(float x, float y, float xBound, float yBound, float maxHealth, float startHealth, EntityType type, Level level) {
+        super(x, y, 0, 0, 0, 0, type, level);
+        this.maxHealth = maxHealth;
+        this.health = startHealth;
+        dirX = 1;
+    }
+
+    public Mob(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, float maxHealth, float startHealth, EntityType type, Level level) {
+        super(x, y, xBound, yBound, xBoundOffset, yBoundOffset, type, level);
+        this.maxHealth = maxHealth;
+        this.health = startHealth;
         dirX = 1;
     }
 
@@ -82,26 +75,13 @@ public class Mob extends Entity {
         }
     }
 
+    @Override
     public void Damage(float damage, float knockBackX, float knockBackY, float knockBackTime){
         health -= damage;
         this.knockBackX = knockBackX;
         this.knockBackY = knockBackY;
         this.knockBackTime = knockBackTime;
-
         if(health <= 0) Remove();
-
-    }
-
-    protected boolean collision(float ax, float ay){
-        float x0 = x + ax + xBoundOffset - xBound/2;
-        float x1 = x + ax + xBoundOffset + xBound/2;
-        float y0 = y + ay + yBoundOffset - yBound/2;
-        float y1 = y + ay + yBoundOffset + yBound/2;
-
-        return level.getTile((int) (x0 / 16), (int) (y0 / 16)).solid()||
-                level.getTile((int) (x0 / 16), (int) (y1 / 16)).solid() ||
-                level.getTile((int) (x1 / 16), (int) (y0 / 16)).solid() ||
-                level.getTile((int) (x1 / 16), (int) (y1 / 16)).solid();
     }
 
     public void useItem(){
@@ -121,27 +101,12 @@ public class Mob extends Entity {
         return health;
     }
 
-    protected boolean collision(Mob other){
-        return this.x < other.x + other.xBound &&
-                this.x + this.xBound > other.x &&
-                this.y < other.y + other.yBound &&
-                this.yBound + this.y > other.y;
+    public void setHealth(float health){
+        this.health = health;
     }
 
-    public float getXBound() {
-        return xBound;
-    }
-
-    public float getYBound() {
-        return yBound;
-    }
-
-    public float getXBoundOffset() {
-        return xBoundOffset;
-    }
-
-    public float getYBoundOffset() {
-        return yBoundOffset;
+    public float getMaxHealth() {
+        return maxHealth;
     }
 
     public int getDirX() {
@@ -158,5 +123,13 @@ public class Mob extends Entity {
 
     public void setDirY(int dirY) {
         this.dirY = dirY;
+    }
+
+    public float getStamina() {
+        return stamina;
+    }
+
+    public void setStamina(float stamina) {
+        this.stamina = stamina;
     }
 }

@@ -1,5 +1,6 @@
 package com.sheep.game.util;
 
+import com.sheep.game.entity.Entity;
 import com.sheep.game.entity.mob.Mob;
 
 public class MathUtil {
@@ -33,7 +34,11 @@ public class MathUtil {
         return a;
     }
 
-    public boolean collision(float x1, float y1, float w1, float h1,
+    public static float invertRange(float num, float min, float max) {
+        return (max + min) - num;
+    }
+
+    public static boolean collision(float x1, float y1, float w1, float h1,
                              float x2, float y2, float w2, float h2){
         return x1 < x2 + w2 &&
                 x1 + w1 > x2 &&
@@ -41,8 +46,8 @@ public class MathUtil {
                 h1 + y1 > y2;
     }
 
-    public boolean collision(float x1, float y1, float w1, float h1,
-                             Mob other){
+    public static boolean collision(float x1, float y1, float w1, float h1,
+                             Entity other){
         float x2 = other.getX();
         float y2 = other.getY();
         float w2 = other.getXBound();

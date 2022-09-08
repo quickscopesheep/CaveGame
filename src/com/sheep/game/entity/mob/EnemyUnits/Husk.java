@@ -16,7 +16,7 @@ public class Husk extends Unit{
     int frame;
 
     public Husk(float x, float y, Level level) {
-        super(x, y, 10, 15, 0, 1, 25, 6*16, EntityType.HUSK, level);
+        super(x, y, 10, 15, 0, 1, 25, 25, 6*16, EntityType.HUSK, level);
     }
 
     @Override
@@ -43,6 +43,12 @@ public class Husk extends Unit{
                 moveCoolDown = 15;
             }
         }
+    }
+
+    @Override
+    public void Damage(float damage, float knockBackX, float knockBackY, float knockBackTime) {
+        super.Damage(damage, knockBackX, knockBackY, knockBackTime);
+        System.out.println("damage: " + damage);
     }
 
     @Override
