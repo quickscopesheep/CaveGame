@@ -1,5 +1,6 @@
 package com.sheep.game.entity.mob;
 
+import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
 import com.sheep.game.Items.medkit;
 import com.sheep.game.Items.pickaxe;
@@ -7,6 +8,7 @@ import com.sheep.game.entity.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
+import com.sheep.game.util.AudioManager;
 import com.sheep.game.util.Keyboard;
 
 public class Player extends Mob{
@@ -51,7 +53,7 @@ public class Player extends Mob{
         moving = inputX != 0 || inputY != 0;
 
         frame++;
-        if(frame > 128) frame = 0;
+        if(frame == 128) frame = 0;
 
         float mag = (float)Math.sqrt(inputX*inputX + inputY*inputY);
 

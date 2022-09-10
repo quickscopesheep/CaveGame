@@ -1,12 +1,13 @@
-package com.sheep.game.UI.Widgets.base;
+package com.sheep.game.UI.Widgets;
 
+import com.sheep.game.UI.Menu;
 import com.sheep.game.gfx.Screen;
 
-public class TextWidget extends Widget{
+public class TextWidget extends Widget {
     String label;
 
-    public TextWidget(int x, int y, String label) {
-        super(x, y, 0, 0);
+    public TextWidget(int x, int y, Menu parent, String label) {
+        super(x, y, 0, 0, parent);
         this.label = label;
         this.w = label.length()*8+2;
         this.h = 10;

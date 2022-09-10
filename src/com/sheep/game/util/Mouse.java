@@ -5,10 +5,22 @@ import com.sheep.game.Game;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Mouse implements MouseListener, MouseMotionListener {
     private static int mouseX, mouseY;
     private static int button = -1;
+
+    private static List<MouseButtonListener> listeners = new ArrayList<MouseButtonListener>();
+
+    public static void AddListener(MouseButtonListener listener){
+        listeners.add(listener);
+    }
+
+    public static void RemoveListener(MouseButtonListener listener){
+        listeners.remove(listener);
+    }
 
     public static int getMouseX() {
         return mouseX;
@@ -24,7 +36,9 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        for (MouseButtonListener listener : listeners) {
+            listener.MouseButtonDown(e.getButton());
+        }
     }
 
     @Override

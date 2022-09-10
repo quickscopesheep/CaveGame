@@ -1,11 +1,13 @@
 package com.sheep.game;
 
+import com.sheep.game.UI.MainMenu;
 import com.sheep.game.UI.Menu;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.CaveLevel.CaveLevel;
 import com.sheep.game.level.Level;
+import com.sheep.game.util.AudioManager;
 import com.sheep.game.util.Keyboard;
 import com.sheep.game.util.Mouse;
 
@@ -25,6 +27,7 @@ public class Game extends Canvas implements Runnable{
     private JFrame frame;
 
     public static Screen screen;
+    public static AudioManager audioManager;
 
     public static Level level;
 
@@ -45,8 +48,9 @@ public class Game extends Canvas implements Runnable{
 
         frame = new JFrame();
         screen = new Screen(WIDTH, HEIGHT);
+        audioManager = new AudioManager();
 
-        currentMenu = Menu.mainMenu;
+        currentMenu = new MainMenu();
 
         Keyboard keyboard = new Keyboard();
         Mouse mouse = new Mouse();
@@ -58,12 +62,15 @@ public class Game extends Canvas implements Runnable{
 
     public static void StartGame(){
         currentMenu = null;
-        gameStarted = true;
 
         level = new CaveLevel(64, 64, System.currentTimeMillis());
 
         level.Add(player = new Player(((CaveLevel)level).getPlayerStart().x*16, ((CaveLevel)level).getPlayerStart().y*16,
                 level));
+
+        gameStarted = true;
+
+        System.out.println("Level Seed: " + level.getSeed());
     }
 
     public synchronized void start(){
@@ -215,7 +222,7 @@ public class Game extends Canvas implements Runnable{
 
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
-                System.out.println("ticks: " + ticks + ", frames: " + frames);
+                //System.out.println("ticks: " + ticks + ", frames: " + frames);
                 ticks = 0;
                 frames = 0;
             }
