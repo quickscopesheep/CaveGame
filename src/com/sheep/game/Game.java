@@ -1,5 +1,6 @@
 package com.sheep.game;
 
+import com.sheep.game.UI.Menu;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
@@ -8,11 +9,14 @@ import com.sheep.game.level.Level;
 import com.sheep.game.util.Keyboard;
 import com.sheep.game.util.Mouse;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferStrategy;
+import javax.swing.JFrame;
+import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+
 
 public class Game extends Canvas implements Runnable{
     public static final int WIDTH = 240, HEIGHT = WIDTH / 4*3, SCALE = 3;
@@ -26,7 +30,10 @@ public class Game extends Canvas implements Runnable{
 
     public static Player player;
 
-    private boolean running;
+    public static Menu currentMenu;
+
+    public static boolean running;
+    public static boolean gameStarted;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -38,10 +45,8 @@ public class Game extends Canvas implements Runnable{
 
         frame = new JFrame();
         screen = new Screen(WIDTH, HEIGHT);
-        level = new CaveLevel(64, 64, System.currentTimeMillis());
 
-        level.Add(player = new Player(((CaveLevel)level).getPlayerStart().x*16, ((CaveLevel)level).getPlayerStart().y*16,
-                level));
+        currentMenu = Menu.mainMenu;
 
         Keyboard keyboard = new Keyboard();
         Mouse mouse = new Mouse();
@@ -49,6 +54,16 @@ public class Game extends Canvas implements Runnable{
         addKeyListener(keyboard);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
+    }
+
+    public static void StartGame(){
+        currentMenu = null;
+        gameStarted = true;
+
+        level = new CaveLevel(64, 64, System.currentTimeMillis());
+
+        level.Add(player = new Player(((CaveLevel)level).getPlayerStart().x*16, ((CaveLevel)level).getPlayerStart().y*16,
+                level));
     }
 
     public synchronized void start(){
@@ -67,15 +82,22 @@ public class Game extends Canvas implements Runnable{
     }
 
     void tick(){
-        level.tick();
+        if(currentMenu == null){
+            if(gameStarted) {
+                level.tick();
 
-        xScroll = (int) player.getX() - WIDTH/2;
-        yScroll = (int) player.getY() - HEIGHT/2;
+                xScroll = (int) player.getX() - WIDTH / 2;
+                yScroll = (int) player.getY() - HEIGHT / 2;
 
-        if(xScroll < 0) xScroll = 0;
-        else if(xScroll > level.getWidth()*16 - WIDTH) xScroll = level.getWidth()*16 - WIDTH;
-        if(yScroll < 0) yScroll = 0;
-        else if(yScroll > level.getHeight()*16 - HEIGHT) yScroll = level.getHeight()*16 - HEIGHT;
+                if (xScroll < 0) xScroll = 0;
+                else if (xScroll > level.getWidth() * 16 - WIDTH) xScroll = level.getWidth() * 16 - WIDTH;
+                if (yScroll < 0) yScroll = 0;
+                else if (yScroll > level.getHeight() * 16 - HEIGHT) yScroll = level.getHeight() * 16 - HEIGHT;
+            }
+        }else{
+            currentMenu.tick();
+        }
+
     }
 
     void drawMinimap(){
@@ -118,6 +140,20 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
+    void drawStaminaBar(){
+        for(int i = 0; i < 32; i++){
+            float t = i/32f;
+
+            if(t < player.getStamina()/ player.getMaxStamina()){
+                for(int j = 0; j < 4; j++)
+                    screen.pixels[(10+j)*screen.getWidth()+screen.getWidth() - 32 - 4+i] = 0xffc800;
+            }else{
+                for(int j = 0; j < 4; j++)
+                    screen.pixels[(10+j)*screen.getWidth()+screen.getWidth() - 32 - 4+i] = 0x232323;
+            }
+        }
+    }
+
     void render(){
         BufferStrategy bs = getBufferStrategy();
         if(bs == null){
@@ -128,13 +164,21 @@ public class Game extends Canvas implements Runnable{
         Graphics g = bs.getDrawGraphics();
         screen.clear();
 
-        level.render(xScroll, yScroll, screen);
+        if(currentMenu == null){
+            if(gameStarted){
+                level.render(xScroll, yScroll, screen);
 
-        drawMinimap();
+                drawMinimap();
 
-        if(!player.isRemoved()){
-            drawHotbar();
-            drawHealthBar();
+                if(!player.isRemoved()){
+                    drawHotbar();
+                    drawHealthBar();
+                    drawStaminaBar();
+                }
+            }
+
+        }else{
+            currentMenu.render(screen);
         }
 
         System.arraycopy(screen.pixels, 0, pixels, 0, pixels.length);

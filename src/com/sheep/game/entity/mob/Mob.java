@@ -11,8 +11,6 @@ public class Mob extends Entity {
 
     protected float health;
     protected float maxHealth;
-    protected float stamina;
-    protected float maxStamina;
     float knockBackX, knockBackY, knockBackTime;
 
     protected Item item;
@@ -25,7 +23,7 @@ public class Mob extends Entity {
     }
 
     public Mob(float x, float y, float xBound, float yBound, float maxHealth, float startHealth, EntityType type, Level level) {
-        super(x, y, 0, 0, 0, 0, type, level);
+        super(x, y, xBound, yBound, 0, 0, type, level);
         this.maxHealth = maxHealth;
         this.health = startHealth;
         dirX = 1;
@@ -123,13 +121,5 @@ public class Mob extends Entity {
 
     public void setDirY(int dirY) {
         this.dirY = dirY;
-    }
-
-    public float getStamina() {
-        return stamina;
-    }
-
-    public void setStamina(float stamina) {
-        this.stamina = stamina;
     }
 }

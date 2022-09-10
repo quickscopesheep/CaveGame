@@ -39,7 +39,8 @@ public class Sprite {
     //UI
     public static final Sprite UI_ItemFrame = new Sprite(0, 0, 16, 16, SpriteSheet.UI);
     public static final Sprite UI_ItemFrame_select = new Sprite(16, 0, 16, 16, SpriteSheet.UI);
-    public static final Sprite UI_tile_crosshair = new Sprite(32, 0, 16, 16, SpriteSheet.UI);
+
+    public static Sprite Crosshair = new Sprite(4, 4, 0xffffff);
 
     public Sprite(int x, int y, int w, int h, SpriteSheet sheet){
         this.width = w;

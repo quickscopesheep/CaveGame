@@ -14,6 +14,7 @@ public class SpriteSheet {
     public static final SpriteSheet items = new SpriteSheet("/sprites/items.png", 64, 64);
     public static final SpriteSheet UI = new SpriteSheet("/sprites/UI.png", 64, 64);
     public static final SpriteSheet Mobs = new SpriteSheet("/sprites/Mobs.png", 64, 72);
+    public static final SpriteSheet FontMap = new SpriteSheet("/sprites/fontmap.png", 128, 128);
 
     public SpriteSheet(String path, int width, int height){
         this.path = path;

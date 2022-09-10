@@ -21,6 +21,8 @@ public class Level {
     List<Entity> entitiesToAdd;
     List<Entity> entitiesToRemove;
 
+    protected int[] tileIntegrity;
+
     public Level(int width, int height, long seed){
         this.width= width;
         this.height = height;
@@ -32,7 +34,6 @@ public class Level {
         entitiesToRemove = new LinkedList<>();
 
         tiles = new int[width * height];
-        generateLevel();
     }
 
     protected void generateLevel(){

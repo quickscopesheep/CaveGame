@@ -25,8 +25,13 @@ public class CaveLevel extends Level {
 
     private Coord playerStart;
 
+    protected int[] tileIntegrity;
+
     public CaveLevel(int width, int height, long seed) {
         super(width, height, seed);
+        tileIntegrity = new int[width*height];
+
+        generateLevel();
     }
 
     public int getSurroundingWallCount(int gridX, int gridY, int radius) {
@@ -52,8 +57,10 @@ public class CaveLevel extends Level {
             for(int x = 0; x < width; x++){
                 int neighbourCount = getSurroundingWallCount(x, y, 3);
 
-                if(neighbourCount > 4)
-                    tiles[y*width+x] = 4;
+                if(neighbourCount > 4) {
+                    tiles[y * width + x] = 1;
+                    tileIntegrity[y * width + x] = 4;
+                }
                 else if(neighbourCount < 4)
                     tiles[y*width+x] = 0;
             }
@@ -173,5 +180,9 @@ public class CaveLevel extends Level {
 
     public Coord getPlayerStart() {
         return playerStart;
+    }
+
+    public int[] getTileIntegrity() {
+        return tileIntegrity;
     }
 }

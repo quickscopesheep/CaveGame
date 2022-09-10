@@ -22,9 +22,17 @@ public class Player extends Mob{
 
     float useCooldown;
 
+    float stamina;
+    float maxStamina;
+
+    float staminaRegenTime = 120;
+    float staminaRegenTimer;
+
     public Player(int x, int y, Level level) {
         super(x, y, 12, 14, 0, 2, 25, 25, EntityType.PLAYER, level);
         health = 25;
+        maxStamina = 100;
+        stamina = maxStamina;
         items = new Item[3];
         items[0] = new pickaxe(this);
         items[1] = new medkit(this);
@@ -67,12 +75,18 @@ public class Player extends Mob{
         }
         itemButtonLast = itemButton;
 
-        if(Keyboard.USE1 && useCooldown <= 0 && item != null){
+        if(Keyboard.USE1 && useCooldown <= 0 && item != null && stamina >= item.getStaminaUse()){
             useCooldown = item.getCooldown();
             useItem();
         }
 
         if(useCooldown > 0) useCooldown--;
+
+        if(staminaRegenTimer <= 0 && stamina < maxStamina){
+            stamina++;
+        }else{
+            staminaRegenTimer--;
+        }
     }
 
     @Override
@@ -118,11 +132,24 @@ public class Player extends Mob{
             item.render(screen);
     }
 
+    public void useStamina(float amount){
+        stamina -= amount;
+        staminaRegenTimer = staminaRegenTime;
+    }
+
     public Item[] getItems(){
         return items;
     }
 
     public int getCurrentItem() {
         return currentItem;
+    }
+
+    public float getStamina() {
+        return stamina;
+    }
+
+    public float getMaxStamina() {
+        return maxStamina;
     }
 }
