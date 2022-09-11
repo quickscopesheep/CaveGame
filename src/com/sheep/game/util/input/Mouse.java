@@ -1,4 +1,4 @@
-package com.sheep.game.util;
+package com.sheep.game.util.input;
 
 import com.sheep.game.Game;
 

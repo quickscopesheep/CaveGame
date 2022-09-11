@@ -1,9 +1,10 @@
 package com.sheep.game.UI.Widgets;
 
+import com.sheep.game.Game;
 import com.sheep.game.UI.Menu;
 import com.sheep.game.gfx.Screen;
-import com.sheep.game.util.Mouse;
-import com.sheep.game.util.MouseButtonListener;
+import com.sheep.game.util.input.Mouse;
+import com.sheep.game.util.input.MouseButtonListener;
 
 public abstract class Widget implements MouseButtonListener {
     int x, y, w, h;
@@ -23,6 +24,8 @@ public abstract class Widget implements MouseButtonListener {
 
     @Override
     public void MouseButtonDown(int button) {
+        if(Game.currentMenu != parent) return;
+
         int actualX = x - (w/2);
         int actualY = y - (h/2);
 

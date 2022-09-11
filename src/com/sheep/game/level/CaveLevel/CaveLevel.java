@@ -1,6 +1,5 @@
 package com.sheep.game.level.CaveLevel;
 
-import com.sheep.game.entity.EnemySpawner;
 import com.sheep.game.entity.mob.Chest;
 import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.level.Level;
@@ -20,7 +19,7 @@ public class CaveLevel extends Level {
 
     private static final int startAreaInfluence = 3;
 
-    private static final int minEnemies = 48;
+    private static final int minEnemies = 24;
     private static final int minChests = 8;
 
     private Coord playerStart;
@@ -96,7 +95,7 @@ public class CaveLevel extends Level {
         }
 
         for(Coord c : mobSpawnCoords) {
-            this.Add(new EnemySpawner(c.x * 16, c.y * 16, this));
+            this.Add(new Husk(c.x * 16, c.y * 16, this));
         }
 
     }

@@ -8,8 +8,8 @@ import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.CaveLevel.CaveLevel;
 import com.sheep.game.level.Level;
 import com.sheep.game.util.AudioManager;
-import com.sheep.game.util.Keyboard;
-import com.sheep.game.util.Mouse;
+import com.sheep.game.util.input.Keyboard;
+import com.sheep.game.util.input.Mouse;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -61,7 +61,7 @@ public class Game extends Canvas implements Runnable{
     }
 
     public static void StartGame(){
-        currentMenu = null;
+
 
         level = new CaveLevel(64, 64, System.currentTimeMillis());
 
@@ -69,6 +69,7 @@ public class Game extends Canvas implements Runnable{
                 level));
 
         gameStarted = true;
+        currentMenu = null;
 
         System.out.println("Level Seed: " + level.getSeed());
     }

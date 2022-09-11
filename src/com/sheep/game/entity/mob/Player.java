@@ -1,6 +1,5 @@
 package com.sheep.game.entity.mob;
 
-import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
 import com.sheep.game.Items.medkit;
 import com.sheep.game.Items.pickaxe;
@@ -8,8 +7,7 @@ import com.sheep.game.entity.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
-import com.sheep.game.util.AudioManager;
-import com.sheep.game.util.Keyboard;
+import com.sheep.game.util.input.Keyboard;
 
 public class Player extends Mob{
     private static final float moveSpeed = (float) 48 / 60;
@@ -29,6 +27,12 @@ public class Player extends Mob{
 
     float staminaRegenTime = 120;
     float staminaRegenTimer;
+
+    float healthRegenStartTime = 300;
+    float healthRegenTime = 60;
+
+    float healthRegenStartTimer;
+    float healthRegenTimer;
 
     public Player(int x, int y, Level level) {
         super(x, y, 12, 14, 0, 2, 25, 25, EntityType.PLAYER, level);
@@ -60,8 +64,8 @@ public class Player extends Mob{
         float dirX = (float)inputX/mag;
         float dirY = (float)inputY/mag;
 
-        float moveX = dirX*moveSpeed;
-        float moveY = dirY*moveSpeed;
+        float moveX = dirX * (Keyboard.USE2 ? moveSpeed/2 : moveSpeed);
+        float moveY = dirY * (Keyboard.USE2 ? moveSpeed/2 : moveSpeed);
 
         if(inputX == 0) moveX = 0;
         if(inputY == 0) moveY = 0;
@@ -89,6 +93,23 @@ public class Player extends Mob{
         }else{
             staminaRegenTimer--;
         }
+
+        if(!moving & health < maxHealth*.75 && healthRegenStartTimer <= 0){
+            if(healthRegenTimer <= 0){
+                health += .5;
+                healthRegenTimer = healthRegenTime;
+            }else {
+                healthRegenTimer--;
+            }
+        }else{
+            healthRegenStartTime--;
+        }
+    }
+
+    @Override
+    public void Damage(float damage, float knockBackX, float knockBackY, float knockBackTime) {
+        super.Damage(damage, knockBackX, knockBackY, knockBackTime);
+        healthRegenTimer = healthRegenTime;
     }
 
     @Override
@@ -100,16 +121,25 @@ public class Player extends Mob{
         if(!collision(0, ay)){
             y += ay;
         }
-        if(!Keyboard.USE2){
-            if(ax != 0){
-                if(ax > 0) dirX = 1;
-                if(ax < 0) dirX = -1;
-            }
-            if(ay != 0){
-                if(ay > 0) dirY = 1;
-                if(ay < 0) dirY = -1;
+        if(ax != 0){
+            if(ax > 0) dirX = 1;
+            if(ax < 0) dirX = -1;
+        }
+        if(ay != 0){
+            if(ay > 0) dirY = 1;
+            if(ay < 0) dirY = -1;
+        }
+    }
+
+    public boolean pickupItem(Item item){
+        for(int i = 0; i < items.length; i++){
+            if(items[i] == null){
+                items[i] = item;
+                item.setOwner(this);
+                return true;
             }
         }
+        return false;
     }
 
     void equipFromHotbar(int index){

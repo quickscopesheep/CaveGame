@@ -45,4 +45,8 @@ public class Item {
     public float getStaminaUse() {
         return staminaUse;
     }
+
+    public void setOwner(Mob owner) {
+        this.owner = owner;
+    }
 }

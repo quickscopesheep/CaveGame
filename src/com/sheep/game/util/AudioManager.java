@@ -6,7 +6,9 @@ import java.io.IOException;
 public class AudioManager {
     public static String SFX_HOVER = "/sound/hover.wav";
     public static String SFX_CLICK = "/sound/click.wav";
-    public static String SFX_FOOTSTEP = "/sound/footstep.wav";
+    public static String SFX_PICKUP = "/sound/pickup.wav";
+
+    public static String SFX_ROCK_HIT = "/sound/hitRock.wav";
 
     private Clip clip;
 

@@ -1,4 +1,4 @@
-package com.sheep.game.util;
+package com.sheep.game.util.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

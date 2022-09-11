@@ -1,11 +1,15 @@
 package com.sheep.game.Items;
 
+import com.sheep.game.Game;
 import com.sheep.game.entity.mob.Mob;
 import com.sheep.game.entity.mob.Player;
+import com.sheep.game.entity.mob.meleeHitBox;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.CaveLevel.CaveLevel;
-import com.sheep.game.util.Keyboard;
+import com.sheep.game.util.AudioManager;
+import com.sheep.game.util.input.Keyboard;
+import com.sheep.game.util.MathUtil;
 
 public class pickaxe extends Item{
     public static final float hitRange = 16;
@@ -38,12 +42,16 @@ public class pickaxe extends Item{
 
         if(owner.getLevel().getTileIndex((int)(hitX/16), (int)(hitY/16)) > 0){
             ((CaveLevel)owner.getLevel()).getTileIntegrity()[((int)(hitX/16)) + ((int)(hitY/16))*owner.getLevel().getWidth()] -= 1;
-            ((Player)owner).useStamina(staminaUse);
             if(((CaveLevel)owner.getLevel()).getTileIntegrity()[((int)(hitX/16)) + ((int)(hitY/16))*owner.getLevel().getWidth()] <= 0){
                 owner.getLevel().getTiles()[((int)(hitX/16)) + ((int)(hitY/16))*owner.getLevel().getWidth()] = 0;
             }
         }
 
+        float attackDirY = MathUtil.NormalizeY(aimX, aimY);
+        float attackDirX = MathUtil.NormalizeX(aimX, aimY);
+
+        owner.getLevel().Add(new meleeHitBox(owner.getX()-8 + attackDirX*12, owner.getY()-8 + attackDirY*12, owner.getLevel(), owner, 10, 10, 3));
+        ((Player)owner).useStamina(staminaUse);
     }
 
     @Override

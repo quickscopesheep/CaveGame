@@ -2,7 +2,8 @@ package com.sheep.game.entity;
 
 public enum EntityType {
     PLAYER,
-    ENEMY_SPAWNER,
     HUSK,
     CHEST,
+    MELEE_HIT_COL,
+    ITEM_DROP
 }

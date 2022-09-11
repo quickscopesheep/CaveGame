@@ -2,7 +2,6 @@ package com.sheep.game.UI.Widgets;
 
 import com.sheep.game.UI.Menu;
 import com.sheep.game.gfx.Screen;
-import com.sheep.game.util.MouseButtonListener;
 
 public class ButtonWidget extends Widget{
     String Label;
