@@ -1,5 +1,6 @@
 package com.sheep.game.level.CaveLevel;
 
+import com.sheep.game.Game;
 import com.sheep.game.entity.mob.Chest;
 import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.level.Level;
@@ -19,8 +20,8 @@ public class CaveLevel extends Level {
 
     private static final int startAreaInfluence = 3;
 
-    private static final int minEnemies = 24;
-    private static final int minChests = 8;
+    private static int minEnemies = 24;
+    private static int minChests = 8;
 
     private Coord playerStart;
 
@@ -160,8 +161,16 @@ public class CaveLevel extends Level {
             smoothMap();
         }
 
-        spawnEnemies(random);
+        switch (width){
+            case 64 ->{minEnemies = 24;}
+            case 128 ->{minEnemies = 32;}
+            case 256 -> {minEnemies = 64;}
+        }
+
+        minEnemies += Game.difficulty*8;
+
         spawnChests(random);
+        spawnEnemies(random);
     }
 
     @Override

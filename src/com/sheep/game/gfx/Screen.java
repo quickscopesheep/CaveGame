@@ -16,7 +16,7 @@ public class Screen {
 
     Sprite[] fontmap;
 
-    String fontREGEX = "abcdefghijklmnopqrstuvwxyz0123456789 ";
+    String fontREGEX = "abcdefghijklmnopqrstuvwxyz0123456789:,.! ";
 
     public Screen(int width, int height){
         this.width = width;

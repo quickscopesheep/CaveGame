@@ -2,6 +2,7 @@ package com.sheep.game;
 
 import com.sheep.game.UI.MainMenu;
 import com.sheep.game.UI.Menu;
+import com.sheep.game.UI.SettingsMenu;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
@@ -10,6 +11,7 @@ import com.sheep.game.level.Level;
 import com.sheep.game.util.AudioManager;
 import com.sheep.game.util.input.Keyboard;
 import com.sheep.game.util.input.Mouse;
+import com.sun.tools.javac.Main;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -38,6 +40,8 @@ public class Game extends Canvas implements Runnable{
     public static boolean running;
     public static boolean gameStarted;
 
+    public static int difficulty;
+
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
@@ -50,7 +54,7 @@ public class Game extends Canvas implements Runnable{
         screen = new Screen(WIDTH, HEIGHT);
         audioManager = new AudioManager();
 
-        currentMenu = new MainMenu();
+        currentMenu = MainMenu.menu;
 
         Keyboard keyboard = new Keyboard();
         Mouse mouse = new Mouse();
@@ -60,10 +64,10 @@ public class Game extends Canvas implements Runnable{
         addMouseMotionListener(mouse);
     }
 
-    public static void StartGame(){
+    public static void StartGame(GameSettings settings){
+        settings.difficulty = difficulty;
 
-
-        level = new CaveLevel(64, 64, System.currentTimeMillis());
+        level = new CaveLevel(settings.mapSize, settings.mapSize, System.currentTimeMillis());
 
         level.Add(player = new Player(((CaveLevel)level).getPlayerStart().x*16, ((CaveLevel)level).getPlayerStart().y*16,
                 level));
@@ -71,7 +75,7 @@ public class Game extends Canvas implements Runnable{
         gameStarted = true;
         currentMenu = null;
 
-        System.out.println("Level Seed: " + level.getSeed());
+        System.out.println("Level Seed: " + level.getSeed() + " , Difficulty: " + settings.difficulty + " , Map Size: " + settings.mapSize);
     }
 
     public synchronized void start(){
@@ -176,7 +180,7 @@ public class Game extends Canvas implements Runnable{
             if(gameStarted){
                 level.render(xScroll, yScroll, screen);
 
-                drawMinimap();
+                //drawMinimap();
 
                 if(!player.isRemoved()){
                     drawHotbar();
