@@ -37,12 +37,11 @@ public class Sprite {
     public static final Sprite item_pickaxe = new Sprite(0, 16*2, 16, 16, SpriteSheet.items);
     public static final Sprite item_shotgun = new Sprite(0, 0, 16, 16, SpriteSheet.items);
     public static final Sprite item_medkit = new Sprite(0, 16, 16, 16, SpriteSheet.items);
+    public static final Sprite item_map = new Sprite(48, 0, 16, 16, SpriteSheet.items);
 
     //UI
     public static final Sprite UI_ItemFrame = new Sprite(0, 0, 16, 16, SpriteSheet.UI);
     public static final Sprite UI_ItemFrame_select = new Sprite(16, 0, 16, 16, SpriteSheet.UI);
-
-    public static Sprite colTest = new Sprite(24, 24, 0xff00ff);
 
     public Sprite(int x, int y, int w, int h, SpriteSheet sheet){
         this.width = w;

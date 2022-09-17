@@ -10,10 +10,13 @@ public class VerticalLayoutGroup extends Widget{
     List<Widget> widgets;
 
     int spacing;
+    int padding;
 
-    public VerticalLayoutGroup(int x, int y, Menu parent, int spacing) {
+    public VerticalLayoutGroup(int x, int y, Menu parent, int spacing, int padding) {
         super(x, y, 0, 0, parent);
         widgets = new ArrayList<>();
+        this.spacing = spacing;
+        this.padding = padding;
     }
 
     public void AddWidget(Widget widget){
@@ -26,6 +29,12 @@ public class VerticalLayoutGroup extends Widget{
         updateWidgetPositions();
     }
 
+    public void clearWidgets(){
+        for (int i = 0; i < widgets.size(); i++) {
+            RemoveWidget(widgets.get(i));
+        }
+    }
+
     void updateWidgetPositions(){
         int listPixelHeight = 0;
         for(Widget widget : widgets){
@@ -34,12 +43,18 @@ public class VerticalLayoutGroup extends Widget{
 
         int listPixelHeightAccum = 0;
 
+        int widest = 0;
         for(int i = 0; i < widgets.size(); i++){
             Widget widget = widgets.get(i);
             widget.x = this.x;
-            widget.y = this.y - listPixelHeight/2 + listPixelHeightAccum;
+            widget.y = this.y - listPixelHeight/2 + listPixelHeightAccum + padding;
             listPixelHeightAccum += widget.getH() + spacing;
+
+            if(widget.w > widest) widest = widget.w;
         }
+
+        w = widest + padding*2;
+        h = listPixelHeightAccum + padding*2;
     }
 
     @Override
@@ -51,6 +66,7 @@ public class VerticalLayoutGroup extends Widget{
 
     @Override
     public void render(Screen screen) {
+        super.render(screen);
         for (Widget widget : widgets) {
             widget.render(screen);
         }
@@ -59,5 +75,9 @@ public class VerticalLayoutGroup extends Widget{
     @Override
     public void OnClick() {
 
+    }
+
+    public List<Widget> getWidgets() {
+        return widgets;
     }
 }

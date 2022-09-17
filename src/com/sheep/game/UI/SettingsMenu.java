@@ -16,7 +16,7 @@ public class SettingsMenu extends Menu{
     @Override
     protected void constructMenu() {
         VerticalLayoutGroup layout;
-        AddWidget(layout = new VerticalLayoutGroup(Game.WIDTH/2, Game.HEIGHT/2, this, 2));
+        AddWidget(layout = new VerticalLayoutGroup(Game.WIDTH/2, Game.HEIGHT/2, this, 2, 2));
 
     }
 }

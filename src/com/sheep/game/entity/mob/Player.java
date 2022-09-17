@@ -1,9 +1,11 @@
 package com.sheep.game.entity.mob;
 
+import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
-import com.sheep.game.Items.medkit;
 import com.sheep.game.Items.pickaxe;
+import com.sheep.game.UI.Widgets.VerticalLayoutGroup;
 import com.sheep.game.entity.EntityType;
+import com.sheep.game.entity.ItemDrop;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
@@ -19,6 +21,7 @@ public class Player extends Mob{
     int currentItem;
 
     boolean itemButtonLast;
+    boolean dropButtonLast;
 
     float useCooldown;
 
@@ -36,13 +39,11 @@ public class Player extends Mob{
 
     public Player(int x, int y, Level level) {
         super(x, y, 12, 14, 0, 2, 25, 25, EntityType.PLAYER, level);
-        health = 25;
         maxStamina = 100;
         stamina = maxStamina;
-        items = new Item[3];
+        items = new Item[5];
         items[0] = new pickaxe(this);
-        items[1] = new medkit(this);
-        equip(items[0]);
+        equip(items[0]);;
     }
 
     @Override
@@ -74,12 +75,18 @@ public class Player extends Mob{
 
         boolean itemButton = Keyboard.USE3;
         if(itemButton && !itemButtonLast){
-            if(currentItem < 2)
+            if(currentItem < items.length-1)
                 equipFromHotbar(currentItem + 1);
             else
                 equipFromHotbar(0);
         }
         itemButtonLast = itemButton;
+
+        boolean dropButton = Keyboard.INVENTORY;
+        if(dropButton && !dropButtonLast){
+            dropItem(currentItem);
+        }
+        dropButtonLast = dropButton;
 
         if(Keyboard.USE1 && useCooldown <= 0 && item != null && stamina >= item.getStaminaUse()){
             useCooldown = item.getCooldown();
@@ -94,7 +101,7 @@ public class Player extends Mob{
             staminaRegenTimer--;
         }
 
-        if(!moving & health < maxHealth*.75 && healthRegenStartTimer <= 0){
+        if(!moving & health < maxHealth*.75 && healthRegenStartTimer <= 0 && Game.settings.difficulty < 3){
             if(healthRegenTimer <= 0){
                 health += .5;
                 healthRegenTimer = healthRegenTime;
@@ -136,10 +143,19 @@ public class Player extends Mob{
             if(items[i] == null){
                 items[i] = item;
                 item.setOwner(this);
+                equipFromHotbar(currentItem);
                 return true;
             }
         }
         return false;
+    }
+
+    public void dropItem(int index){
+        if(items[index] == null) return;
+        Item itemToDrop = items[index];
+        items[index] = null;
+        item = null;
+        level.Add(new ItemDrop(this.x + dirX*16, this.getY() + dirY*16, level, itemToDrop, 30));
     }
 
     void equipFromHotbar(int index){

@@ -44,4 +44,9 @@ public class medkit extends Item{
     public Sprite getIcon() {
         return Sprite.item_medkit;
     }
+
+    @Override
+    public String getItemName() {
+        return "Medkit";
+    }
 }

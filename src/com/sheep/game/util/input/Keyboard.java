@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Keyboard implements KeyListener {
-    public static boolean UP, DOWN, LEFT, RIGHT, USE1, USE2, USE3;
+    public static boolean UP, DOWN, LEFT, RIGHT, USE1, USE2, USE3, INVENTORY;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -21,6 +21,7 @@ public class Keyboard implements KeyListener {
             case KeyEvent.VK_Z -> USE1 = true;
             case KeyEvent.VK_X -> USE2 = true;
             case KeyEvent.VK_C -> USE3 = true;
+            case KeyEvent.VK_E -> INVENTORY = true;
         }
     }
 
@@ -34,6 +35,7 @@ public class Keyboard implements KeyListener {
             case KeyEvent.VK_Z -> USE1 = false;
             case KeyEvent.VK_X -> USE2 = false;
             case KeyEvent.VK_C -> USE3 = false;
+            case KeyEvent.VK_E -> INVENTORY = false;
         }
     }
 }

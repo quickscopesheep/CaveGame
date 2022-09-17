@@ -17,6 +17,14 @@ public class Husk extends Unit{
 
     public Husk(float x, float y, Level level) {
         super(x, y, 10, 15, 0, 1, 25, 25, 6*16, EntityType.HUSK, level);
+        switch (Game.settings.difficulty){
+            case 0 -> {maxHealth = 20;}
+            case 1 -> {maxHealth = 25;}
+            case 2 -> {maxHealth = 30;}
+            case 3 -> {maxHealth = 50;}
+        }
+
+        this.health = maxHealth;
     }
 
     @Override
@@ -48,7 +56,7 @@ public class Husk extends Unit{
     @Override
     public void Damage(float damage, float knockBackX, float knockBackY, float knockBackTime) {
         super.Damage(damage, knockBackX, knockBackY, knockBackTime);
-        System.out.println("damage: " + damage);
+        System.out.println("Damage: " + damage + " New Health: " + health);
     }
 
     @Override

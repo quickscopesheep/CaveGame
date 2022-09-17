@@ -12,7 +12,7 @@ public class StartGameMenu extends Menu{
     public static StartGameMenu menu = new StartGameMenu();
 
     MultipleChoiceButton difficultyButton;
-    MultipleChoiceButton mapSizeButton;
+    MultipleChoiceButton floorsButton;
 
     public StartGameMenu(){
         super();
@@ -22,33 +22,27 @@ public class StartGameMenu extends Menu{
     @Override
     protected void constructMenu() {
         VerticalLayoutGroup group;
-        widgets.add(group = new VerticalLayoutGroup(Game.WIDTH/2, Game.HEIGHT/2, this, 2));
+        widgets.add(group = new VerticalLayoutGroup(Game.WIDTH/2, Game.HEIGHT/2, this, 2, 2));
 
         group.AddWidget(new ButtonWidget(Game.WIDTH/2, Game.HEIGHT/2 - 4, "Start Game", this, new StartGameCallback()));
         group.AddWidget(difficultyButton = new MultipleChoiceButton(Game.WIDTH/2, Game.HEIGHT/2 + 6 + 4, this, new String[]{
                 "Difficulty: Easy",
                 "Difficulty: Normal",
-                "Difficulty: Hard"
-        }));
-        group.AddWidget(mapSizeButton = new MultipleChoiceButton(Game.WIDTH/2, Game.HEIGHT/2 + 16 + 4, this, new String[]{
-                "Map Size: Small",
-                "Map Size: Medium",
-                "Map Size: Large"
-        }));
+                "Difficulty: Hard",
+                "Difficulty: Impossible"
+        }, 1));
+        group.AddWidget(floorsButton = new MultipleChoiceButton(Game.WIDTH/2, Game.HEIGHT/2 + 6 + 4, this, new String[]{
+                "Floors: 2",
+                "Floors: 3",
+                "Floors: 4",
+                "Floors: 5"
+        }, 1));
     }
 
     public GameSettings makeGameSettings(){
         int dificulty = difficultyButton.getIndex();
-        int mapSize = 0;
+        int floors = floorsButton.getIndex()+1;
 
-        System.out.println(difficultyButton.getIndex() + " , " + mapSizeButton.getIndex());
-
-        switch (mapSizeButton.getIndex()) {
-            case 0 -> mapSize = 64;
-            case 1 -> mapSize = 128;
-            case 2 -> mapSize = 256;
-        }
-
-        return new GameSettings(dificulty, mapSize);
+        return new GameSettings(dificulty, floors);
     }
 }

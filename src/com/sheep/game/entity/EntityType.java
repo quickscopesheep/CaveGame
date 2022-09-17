@@ -5,5 +5,6 @@ public enum EntityType {
     HUSK,
     CHEST,
     MELEE_HIT_COL,
-    ITEM_DROP
+    ITEM_DROP,
+    DOOR
 }

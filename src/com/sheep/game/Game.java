@@ -2,7 +2,7 @@ package com.sheep.game;
 
 import com.sheep.game.UI.MainMenu;
 import com.sheep.game.UI.Menu;
-import com.sheep.game.UI.SettingsMenu;
+import com.sheep.game.entity.Door;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
@@ -11,7 +11,6 @@ import com.sheep.game.level.Level;
 import com.sheep.game.util.AudioManager;
 import com.sheep.game.util.input.Keyboard;
 import com.sheep.game.util.input.Mouse;
-import com.sun.tools.javac.Main;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -31,7 +30,8 @@ public class Game extends Canvas implements Runnable{
     public static Screen screen;
     public static AudioManager audioManager;
 
-    public static Level level;
+    public static Level[] levels;
+    public static int currentLevel;
 
     public static Player player;
 
@@ -40,7 +40,7 @@ public class Game extends Canvas implements Runnable{
     public static boolean running;
     public static boolean gameStarted;
 
-    public static int difficulty;
+    public static GameSettings settings;
 
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -64,18 +64,24 @@ public class Game extends Canvas implements Runnable{
         addMouseMotionListener(mouse);
     }
 
-    public static void StartGame(GameSettings settings){
-        settings.difficulty = difficulty;
+    public static void StartGame(GameSettings gameSettings){
+        settings = gameSettings;
 
-        level = new CaveLevel(settings.mapSize, settings.mapSize, System.currentTimeMillis());
+        currentLevel = 0;
+        levels = new Level[settings.floors];
+        for(int i = 0; i < settings.floors; i++){
+            levels[i] = new CaveLevel(64, 64, System.currentTimeMillis());
+        }
 
-        level.Add(player = new Player(((CaveLevel)level).getPlayerStart().x*16, ((CaveLevel)level).getPlayerStart().y*16,
-                level));
+        getLevel().Add(new Door(((CaveLevel)getLevel()).getPlayerStart().x*16+32, ((CaveLevel)getLevel()).getPlayerStart().y*16,
+                getLevel(), false, 1));
+        getLevel().Add(player = new Player(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16,
+                getLevel()));
 
         gameStarted = true;
         currentMenu = null;
 
-        System.out.println("Level Seed: " + level.getSeed() + " , Difficulty: " + settings.difficulty + " , Map Size: " + settings.mapSize);
+        System.out.println("Level Seed: " + getLevel().getSeed() + " , Difficulty: " + settings.difficulty);
     }
 
     public synchronized void start(){
@@ -96,34 +102,20 @@ public class Game extends Canvas implements Runnable{
     void tick(){
         if(currentMenu == null){
             if(gameStarted) {
-                level.tick();
+                getLevel().tick();
 
                 xScroll = (int) player.getX() - WIDTH / 2;
                 yScroll = (int) player.getY() - HEIGHT / 2;
 
                 if (xScroll < 0) xScroll = 0;
-                else if (xScroll > level.getWidth() * 16 - WIDTH) xScroll = level.getWidth() * 16 - WIDTH;
+                else if (xScroll > getLevel().getWidth() * 16 - WIDTH) xScroll = getLevel().getWidth() * 16 - WIDTH;
                 if (yScroll < 0) yScroll = 0;
-                else if (yScroll > level.getHeight() * 16 - HEIGHT) yScroll = level.getHeight() * 16 - HEIGHT;
+                else if (yScroll > getLevel().getHeight() * 16 - HEIGHT) yScroll = getLevel().getHeight() * 16 - HEIGHT;
             }
         }else{
             currentMenu.tick();
         }
 
-    }
-
-    void drawMinimap(){
-        for(int y = 0; y < level.getHeight(); y++){
-            for(int x = 0; x < level.getWidth(); x++){
-                if(!level.getTile(x, y).solid()){
-                    screen.pixels[(y+ screen.getHeight() - level.getHeight())*screen.getWidth()+x + (screen.getWidth() - level.getWidth())] += 0x141414;
-                }else if(((CaveLevel)level).getSurroundingWallCount(x, y, 3) < 8){
-                    screen.pixels[(y+ screen.getHeight() - level.getHeight())*screen.getWidth()+x + (screen.getWidth() - level.getWidth())] += 0x090909;
-                }
-            }
-        }
-
-        screen.pixels[(int)(player.getY()/16 + screen.getHeight() - level.getHeight())*screen.getWidth()+(int)player.getX()/16+(screen.getWidth() - level.getWidth())] = 0x555555;
     }
 
     void drawHotbar(){
@@ -178,9 +170,7 @@ public class Game extends Canvas implements Runnable{
 
         if(currentMenu == null){
             if(gameStarted){
-                level.render(xScroll, yScroll, screen);
-
-                //drawMinimap();
+                getLevel().render(xScroll, yScroll, screen);
 
                 if(!player.isRemoved()){
                     drawHotbar();
@@ -249,5 +239,26 @@ public class Game extends Canvas implements Runnable{
         game.frame.setVisible(true);
 
         game.start();
+    }
+
+    public static Level getLevel(){
+        return levels[currentLevel];
+    }
+
+    public static int getLevelIndex(){
+        return currentLevel;
+    }
+
+    public static void ChangeLevel(int level){
+        player.setLevel(levels[level]);
+
+        getLevel().Remove(player);
+        levels[level].Add(player);
+
+        player.setX(((CaveLevel)levels[level]).getPlayerStart().x*16);
+        player.setY(((CaveLevel)levels[level]).getPlayerStart().y*16);
+
+        currentLevel = level;
+
     }
 }

@@ -2,10 +2,10 @@ package com.sheep.game;
 
 public class GameSettings {
     public int difficulty;
-    public int mapSize;
+    public int floors;
 
-    public GameSettings(int difficulty, int mapSize) {
+    public GameSettings(int difficulty, int floors) {
         this.difficulty = difficulty;
-        this.mapSize = mapSize;
+        this.floors = floors;
     }
 }

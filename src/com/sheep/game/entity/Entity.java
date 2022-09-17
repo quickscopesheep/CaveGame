@@ -107,4 +107,8 @@ public abstract class Entity {
     public EntityType getType() {
         return type;
     }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
 }

@@ -7,10 +7,11 @@ public class MultipleChoiceButton extends ButtonWidget{
     String[] options;
     int index = 0;
 
-    public MultipleChoiceButton(int x, int y, Menu parent, String[] options) {
+    public MultipleChoiceButton(int x, int y, Menu parent, String[] options, int startIndex) {
         super(x, y,"", parent, new IButton());
 
         this.options = options;
+        this.index = startIndex;
 
         int longestOption = 0;
         for (String option : options) {
@@ -30,6 +31,7 @@ public class MultipleChoiceButton extends ButtonWidget{
 
     @Override
     public void render(Screen screen) {
+        super.render(screen);
         if(isHovering())
             screen.renderText(x - ((options[index].length()*8)/2) + 1, y - (h/2) + 1, 0xffc800, options[index]);
         else

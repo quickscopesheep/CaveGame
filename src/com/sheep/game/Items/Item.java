@@ -49,4 +49,8 @@ public class Item {
     public void setOwner(Mob owner) {
         this.owner = owner;
     }
+
+    public String getItemName(){
+        return "item";
+    }
 }

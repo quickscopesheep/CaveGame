@@ -21,10 +21,10 @@ public class MainMenu extends Menu{
 
     @Override
     protected void constructMenu() {
-        AddWidget(new TextWidget(Game.WIDTH/2, Game.HEIGHT/2 - 32, this, "Untitled"));
+        AddWidget(new TextWidget(Game.WIDTH/2, Game.HEIGHT/2 - 32, this, "Untitled", 0xee0000));
 
         VerticalLayoutGroup group;
-        AddWidget(group = new VerticalLayoutGroup(Game.WIDTH/2, Game.HEIGHT/2, this, 2));
+        AddWidget(group = new VerticalLayoutGroup(Game.WIDTH/2, Game.HEIGHT/2, this, 2, 2));
 
         group.AddWidget(new ButtonWidget(Game.WIDTH/2, Game.HEIGHT/2 - 5, "Start", this, new SwitchMenuCallback(StartGameMenu.menu)));
         group.AddWidget(new ButtonWidget(Game.WIDTH/2, Game.HEIGHT/2 + 5 , "Quit", this, new QuitGameCallback()));

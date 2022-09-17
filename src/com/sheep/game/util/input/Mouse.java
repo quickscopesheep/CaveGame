@@ -36,7 +36,8 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        for (MouseButtonListener listener : listeners) {
+        for (int i = 0; i < listeners.size(); i++) {
+            MouseButtonListener listener = listeners.get(i);
             listener.MouseButtonDown(e.getButton());
         }
     }

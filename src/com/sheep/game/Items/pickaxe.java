@@ -63,4 +63,9 @@ public class pickaxe extends Item{
     public Sprite getIcon() {
         return Sprite.item_pickaxe;
     }
+
+    @Override
+    public String getItemName() {
+        return "Pickaxe";
+    }
 }

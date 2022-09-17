@@ -38,7 +38,7 @@ public class Chest extends Mob{
         int offsetX = random.nextInt(-8, 8);
         int offsetY = random.nextInt(-8, 8);
 
-        level.Add(new ItemDrop(x + offsetX, y + offsetY, level, new medkit(null)));
+        level.Add(new ItemDrop(x + offsetX, y + offsetY, level, new medkit(null), 0));
     }
 
     @Override
