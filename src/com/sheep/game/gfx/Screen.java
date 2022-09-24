@@ -106,12 +106,17 @@ public class Screen {
         }
     }
 
-
-
     public void renderText(int x, int y, int colour, String text){
         for(int i = 0; i < text.length(); i++){
             Sprite sprite = fontmap[fontREGEX.indexOf(text.toLowerCase().charAt(i))];
             renderColouredSprite(x+i*8, y, sprite, colour, false);
+        }
+    }
+
+    public void renderTextLit(int x, int y, String text){
+        for(int i = 0; i < text.length(); i++){
+            Sprite sprite = fontmap[fontREGEX.indexOf(text.toLowerCase().charAt(i))];
+            renderSpriteLit(x+i*8, y, sprite, false);
         }
     }
 
@@ -141,6 +146,7 @@ public class Screen {
     }
 
     public void renderColouredSprite(int xp, int yp, Sprite sprite, int colour, boolean flipped){
+
         for(int y = 0; y < sprite.getHeight(); y++){
             int ya = y + yp;
 

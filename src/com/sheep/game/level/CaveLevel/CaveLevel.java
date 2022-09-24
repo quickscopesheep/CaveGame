@@ -2,8 +2,10 @@ package com.sheep.game.level.CaveLevel;
 
 import com.sheep.game.Game;
 import com.sheep.game.entity.Door;
+import com.sheep.game.entity.Entity;
 import com.sheep.game.entity.mob.Chest;
 import com.sheep.game.entity.mob.EnemyUnits.Husk;
+import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.Level;
 import com.sheep.game.level.tiles.Tile;
 import com.sheep.game.util.Coord;
@@ -28,9 +30,13 @@ public class CaveLevel extends Level {
 
     protected int[] tileIntegrity;
 
-    public CaveLevel(int width, int height, long seed) {
+    protected int floor;
+
+    public CaveLevel(int width, int height, long seed, int floor) {
         super(width, height, seed);
         tileIntegrity = new int[width*height];
+
+        this.floor = floor;
 
         generateLevel();
     }
@@ -170,6 +176,26 @@ public class CaveLevel extends Level {
     }
 
     @Override
+    public void render(int xScroll, int yScroll, Screen screen) {screen.setOffset(xScroll, yScroll);
+        int x0 = xScroll >> 4;
+        int x1 = ((xScroll + screen.getWidth()) >> 4) + 16;
+        int y0 = yScroll >> 4;
+        int y1 = ((yScroll + screen.getHeight()) >> 4) + 16;
+
+        for(int y = y0; y < y1; y++){
+            for(int x = x0; x < x1; x++){
+                getTile(x, y).render(x << 4, y << 4, screen, this);
+            }
+        }
+
+        screen.renderTextLit(playerStart.x * 16 - (7*8)/2, playerStart.y * 16 - 24,"Floor " + floor);
+
+        for(Entity e : entities){
+            e.render(screen);
+        }
+    }
+
+    @Override
     public Tile getTile(int x, int y) {
         if(x < 0 || x > width - 1 || y < 0 || y > height - 1)
             return Tile.voidTile;
@@ -188,5 +214,9 @@ public class CaveLevel extends Level {
 
     public int[] getTileIntegrity() {
         return tileIntegrity;
+    }
+
+    public int getFloor() {
+        return floor;
     }
 }

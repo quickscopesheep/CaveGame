@@ -56,7 +56,6 @@ public class Player extends Mob{
         if(Keyboard.RIGHT) inputX = 1;
 
         moving = inputX != 0 || inputY != 0;
-
         frame++;
         if(frame == 128) frame = 0;
 

@@ -8,7 +8,9 @@ public class AudioManager {
     public static String SFX_CLICK = "/sound/click.wav";
     public static String SFX_PICKUP = "/sound/pickup.wav";
 
-    public static String SFX_ROCK_HIT = "/sound/hitRock.wav";
+    public static String SFX_ROCK_HIT_1 = "/sound/rockhit1.wav";
+    public static String SFX_ROCK_HIT_2 = "/sound/rockhit2.wav";
+    public static String SFX_ROCK_DESTROY = "/sound/rockdestroy.wav";
 
     private Clip clip;
 

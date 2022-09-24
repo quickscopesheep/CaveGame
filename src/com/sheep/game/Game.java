@@ -13,6 +13,7 @@ import com.sheep.game.util.input.Keyboard;
 import com.sheep.game.util.input.Mouse;
 
 import javax.swing.JFrame;
+import javax.swing.text.html.StyleSheet;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
@@ -70,11 +71,16 @@ public class Game extends Canvas implements Runnable{
         currentLevel = 0;
         levels = new Level[settings.floors];
         for(int i = 0; i < settings.floors; i++){
-            levels[i] = new CaveLevel(64, 64, System.currentTimeMillis());
+            levels[i] = new CaveLevel(64, 64, System.currentTimeMillis(), i);
+        }
+
+        for(int i = 1; i < settings.floors; i++){
+            levels[i].Add(new Door(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16,
+                    levels[i], 0, true));
         }
 
         getLevel().Add(new Door(((CaveLevel)getLevel()).getPlayerStart().x*16+32, ((CaveLevel)getLevel()).getPlayerStart().y*16,
-                getLevel(), false, 1));
+                getLevel(), 1, false));
         getLevel().Add(player = new Player(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16,
                 getLevel()));
 
@@ -115,6 +121,7 @@ public class Game extends Canvas implements Runnable{
         }else{
             currentMenu.tick();
         }
+
 
     }
 
@@ -252,7 +259,7 @@ public class Game extends Canvas implements Runnable{
     public static void ChangeLevel(int level){
         player.setLevel(levels[level]);
 
-        getLevel().Remove(player);
+        levels[currentLevel].Remove(player);
         levels[level].Add(player);
 
         player.setX(((CaveLevel)levels[level]).getPlayerStart().x*16);

@@ -16,7 +16,7 @@ public class Level {
 
     protected final long seed;
 
-    List<Entity> entities;
+    protected List<Entity> entities;
 
     List<Entity> entitiesToAdd;
     List<Entity> entitiesToRemove;

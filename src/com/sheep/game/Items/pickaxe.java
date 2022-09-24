@@ -11,13 +11,17 @@ import com.sheep.game.util.AudioManager;
 import com.sheep.game.util.input.Keyboard;
 import com.sheep.game.util.MathUtil;
 
+import java.util.Random;
+
 public class pickaxe extends Item{
     public static final float hitRange = 16;
 
+    Random random;
     float hitX, hitY;
 
     public pickaxe(Mob owner) {
         super(owner, 30,  10);
+        random = new Random();
     }
 
     @Override
@@ -42,8 +46,17 @@ public class pickaxe extends Item{
 
         if(owner.getLevel().getTileIndex((int)(hitX/16), (int)(hitY/16)) > 0){
             ((CaveLevel)owner.getLevel()).getTileIntegrity()[((int)(hitX/16)) + ((int)(hitY/16))*owner.getLevel().getWidth()] -= 1;
+            if(random.nextInt(10) > 5) {
+                Game.audioManager.loadSound(AudioManager.SFX_ROCK_HIT_1);
+            }else{
+                Game.audioManager.loadSound(AudioManager.SFX_ROCK_HIT_2);
+            }
+            Game.audioManager.play();
+
             if(((CaveLevel)owner.getLevel()).getTileIntegrity()[((int)(hitX/16)) + ((int)(hitY/16))*owner.getLevel().getWidth()] <= 0){
                 owner.getLevel().getTiles()[((int)(hitX/16)) + ((int)(hitY/16))*owner.getLevel().getWidth()] = 0;
+                Game.audioManager.loadSound(AudioManager.SFX_ROCK_DESTROY);
+                Game.audioManager.play();
             }
         }
 
