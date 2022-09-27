@@ -11,8 +11,10 @@ import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
 import com.sheep.game.util.input.Keyboard;
 
+import java.util.Random;
+
 public class Player extends Mob{
-    private static final float moveSpeed = (float) 48 / 60;
+    private static final float moveSpeed = (float) 42 / 60;
 
     boolean moving;
     int frame;
@@ -37,13 +39,18 @@ public class Player extends Mob{
     float healthRegenStartTimer;
     float healthRegenTimer;
 
+    Random random;
+
     public Player(int x, int y, Level level) {
         super(x, y, 12, 14, 0, 2, 25, 25, EntityType.PLAYER, level);
         maxStamina = 100;
         stamina = maxStamina;
+
+        random = new Random();
+
         items = new Item[5];
         items[0] = new pickaxe(this);
-        equip(items[0]);;
+        equip(items[0]);
     }
 
     @Override
@@ -64,8 +71,8 @@ public class Player extends Mob{
         float dirX = (float)inputX/mag;
         float dirY = (float)inputY/mag;
 
-        float moveX = dirX * (Keyboard.USE2 ? moveSpeed/2 : moveSpeed);
-        float moveY = dirY * (Keyboard.USE2 ? moveSpeed/2 : moveSpeed);
+        float moveX = dirX * moveSpeed;
+        float moveY = dirY * moveSpeed;
 
         if(inputX == 0) moveX = 0;
         if(inputY == 0) moveY = 0;
@@ -89,6 +96,8 @@ public class Player extends Mob{
 
         if(Keyboard.USE1 && useCooldown <= 0 && item != null && stamina >= item.getStaminaUse()){
             useCooldown = item.getCooldown();
+            if(item.getCoolDownVariation() > 0)
+                useCooldown += random.nextFloat(-item.getCoolDownVariation(), item.getCoolDownVariation());
             useItem();
         }
 
@@ -116,6 +125,7 @@ public class Player extends Mob{
     public void Damage(float damage, float knockBackX, float knockBackY, float knockBackTime) {
         super.Damage(damage, knockBackX, knockBackY, knockBackTime);
         healthRegenTimer = healthRegenTime;
+        if(health <= 0) Game.playerDead();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.sheep.game.level.CaveLevel;
+package com.sheep.game.level;
 
 import com.sheep.game.Game;
 import com.sheep.game.entity.Door;
@@ -18,15 +18,15 @@ import java.util.Random;
 public class CaveLevel extends Level {
 
     //generation settings
-    private static final int randomFillPercent = 50;
-    private static final int smoothGenerations = 5;
+    protected static final int randomFillPercent = 50;
+    protected static final int smoothGenerations = 5;
 
     private static final int startAreaInfluence = 3;
 
     private static int minEnemies = 24;
     private static int minChests = 8;
 
-    private Coord playerStart;
+    protected Coord playerStart;
 
     protected int[] tileIntegrity;
 
@@ -59,7 +59,7 @@ public class CaveLevel extends Level {
         return wallCount;
     }
 
-    private void smoothMap(){
+    protected void smoothMap(){
         for(int y = 0; y < height; y++){
             for(int x = 0; x < width; x++){
                 int neighbourCount = getSurroundingWallCount(x, y, 3);
@@ -71,6 +71,43 @@ public class CaveLevel extends Level {
                 else if(neighbourCount < 4)
                     tiles[y*width+x] = 0;
             }
+        }
+    }
+
+    void spawnDoors(Random random){
+        Coord doorSpawnCoord = new Coord(0, 0);
+
+        int distanceToSpawn = 0;
+        switch (Game.settings.difficulty){
+            case 0 -> distanceToSpawn = 24;
+            case 1 -> distanceToSpawn = 28;
+            case 2 -> distanceToSpawn = 32;
+            case 3 -> distanceToSpawn = 42;
+        }
+
+        boolean success = false;
+
+        for(int iterations = 0; iterations < 1000; iterations++) {
+            int x = random.nextInt(width - 1);
+            int y = random.nextInt(height - 1);
+
+            if (MathUtil.Distance(x, y, playerStart.x, playerStart.y) > distanceToSpawn) {
+                if (getSurroundingWallCount(x, y, 4) == 0) {
+                    success = true;
+                    doorSpawnCoord.x = x;
+                    doorSpawnCoord.y = y;
+                }
+            }
+        }
+        if(success) {
+            this.Add(new Door(doorSpawnCoord.x * 16, doorSpawnCoord.y * 16, this, floor + 1, false));
+            if(floor != 0)
+                Add(new Door(playerStart.x * 16, playerStart.y * 16, this, 0, true));
+        } else {
+            System.out.print("failed to generate Door in seed: " + seed);
+            seed = System.currentTimeMillis();
+            System.out.println(" , Regenerating level with seed: " + seed);
+            generateLevel();
         }
     }
 
@@ -171,12 +208,14 @@ public class CaveLevel extends Level {
         minEnemies += Game.settings.difficulty*8;
         minChests -= (Game.settings.difficulty-1);
 
+        spawnDoors(random);
         spawnChests(random);
         spawnEnemies(random);
     }
 
     @Override
-    public void render(int xScroll, int yScroll, Screen screen) {screen.setOffset(xScroll, yScroll);
+    public void render(int xScroll, int yScroll, Screen screen) {
+        screen.setOffset(xScroll, yScroll);
         int x0 = xScroll >> 4;
         int x1 = ((xScroll + screen.getWidth()) >> 4) + 16;
         int y0 = yScroll >> 4;
@@ -188,7 +227,7 @@ public class CaveLevel extends Level {
             }
         }
 
-        screen.renderTextLit(playerStart.x * 16 - (7*8)/2, playerStart.y * 16 - 24,"Floor " + floor);
+        screen.renderTextLit(playerStart.x * 16 - (7*8)/2, playerStart.y * 16 - 24,"Floor " + (floor + 1));
 
         for(Entity e : entities){
             e.render(screen);
@@ -200,7 +239,7 @@ public class CaveLevel extends Level {
         if(x < 0 || x > width - 1 || y < 0 || y > height - 1)
             return Tile.voidTile;
 
-        if(tiles[x+y*width] > 0) return Tile.wallTile;
+        if(tiles[x+y*width] == 1) return Tile.wallTile;
         else return Tile.floorTile;
     }
 

@@ -8,6 +8,7 @@ public class Item {
     protected Mob owner;
 
     protected float cooldown;
+    protected float coolDownVariation;
     protected float staminaUse;
 
     public Item(Mob owner){
@@ -16,9 +17,10 @@ public class Item {
         this.staminaUse = 0;
     }
 
-    public Item(Mob owner, float cooldown, float staminaUse){
+    public Item(Mob owner, float cooldown, float coolDownVariation, float staminaUse){
         this.owner = owner;
         this.cooldown = cooldown;
+        this.coolDownVariation = coolDownVariation;
         this.staminaUse = staminaUse;
     }
 
@@ -40,6 +42,10 @@ public class Item {
 
     public float getCooldown() {
         return cooldown;
+    }
+
+    public float getCoolDownVariation() {
+        return coolDownVariation;
     }
 
     public float getStaminaUse() {

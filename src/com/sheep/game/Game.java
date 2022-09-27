@@ -1,19 +1,20 @@
 package com.sheep.game;
 
-import com.sheep.game.UI.MainMenu;
+import com.sheep.game.UI.LogoMenu;
 import com.sheep.game.UI.Menu;
+import com.sheep.game.UI.RespawnMenu;
 import com.sheep.game.entity.Door;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
-import com.sheep.game.level.CaveLevel.CaveLevel;
+import com.sheep.game.level.BossLevel;
+import com.sheep.game.level.CaveLevel;
 import com.sheep.game.level.Level;
 import com.sheep.game.util.AudioManager;
 import com.sheep.game.util.input.Keyboard;
 import com.sheep.game.util.input.Mouse;
 
 import javax.swing.JFrame;
-import javax.swing.text.html.StyleSheet;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
@@ -55,7 +56,7 @@ public class Game extends Canvas implements Runnable{
         screen = new Screen(WIDTH, HEIGHT);
         audioManager = new AudioManager();
 
-        currentMenu = MainMenu.menu;
+        currentMenu = LogoMenu.menu;
 
         Keyboard keyboard = new Keyboard();
         Mouse mouse = new Mouse();
@@ -71,16 +72,15 @@ public class Game extends Canvas implements Runnable{
         currentLevel = 0;
         levels = new Level[settings.floors];
         for(int i = 0; i < settings.floors; i++){
-            levels[i] = new CaveLevel(64, 64, System.currentTimeMillis(), i);
+            if(i == settings.floors-1)
+                levels[i] = new BossLevel(24, 24, System.currentTimeMillis(), i);
+            else
+                levels[i] = new CaveLevel(64, 64, System.currentTimeMillis(), i);
         }
 
-        for(int i = 1; i < settings.floors; i++){
-            levels[i].Add(new Door(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16,
-                    levels[i], 0, true));
-        }
+        //getLevel().Add(new Door(((CaveLevel)getLevel()).getPlayerStart().x*16+32, ((CaveLevel)getLevel()).getPlayerStart().y*16,
+        //        getLevel(), 1, false));
 
-        getLevel().Add(new Door(((CaveLevel)getLevel()).getPlayerStart().x*16+32, ((CaveLevel)getLevel()).getPlayerStart().y*16,
-                getLevel(), 1, false));
         getLevel().Add(player = new Player(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16,
                 getLevel()));
 
@@ -224,7 +224,7 @@ public class Game extends Canvas implements Runnable{
 
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
-                //System.out.println("ticks: " + ticks + ", frames: " + frames);
+                System.out.println("ticks: " + ticks + ", frames: " + frames);
                 ticks = 0;
                 frames = 0;
             }
@@ -266,6 +266,17 @@ public class Game extends Canvas implements Runnable{
         player.setY(((CaveLevel)levels[level]).getPlayerStart().y*16);
 
         currentLevel = level;
+    }
 
+    public static void respawnPlayer(){
+        player = new Player(((CaveLevel)levels[0]).getPlayerStart().x*16, ((CaveLevel)levels[0]).getPlayerStart().y*16, levels[0]);
+        levels[0].Add(player);
+        gameStarted = true;
+        currentMenu = null;
+    }
+
+    public static void playerDead(){
+        gameStarted = false;
+        currentMenu = RespawnMenu.menu;
     }
 }

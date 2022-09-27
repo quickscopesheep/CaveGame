@@ -56,7 +56,6 @@ public class Husk extends Unit{
     @Override
     public void Damage(float damage, float knockBackX, float knockBackY, float knockBackTime) {
         super.Damage(damage, knockBackX, knockBackY, knockBackTime);
-        System.out.println("Damage: " + damage + " New Health: " + health);
     }
 
     @Override

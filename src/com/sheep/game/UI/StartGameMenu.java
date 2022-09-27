@@ -41,7 +41,7 @@ public class StartGameMenu extends Menu{
 
     public GameSettings makeGameSettings(){
         int dificulty = difficultyButton.getIndex();
-        int floors = floorsButton.getIndex()+1;
+        int floors = floorsButton.getIndex()+2;
 
         return new GameSettings(dificulty, floors);
     }

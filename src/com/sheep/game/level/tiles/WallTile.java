@@ -2,7 +2,7 @@ package com.sheep.game.level.tiles;
 
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
-import com.sheep.game.level.CaveLevel.CaveLevel;
+import com.sheep.game.level.CaveLevel;
 import com.sheep.game.level.Level;
 
 public class WallTile extends Tile{

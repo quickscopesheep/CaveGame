@@ -6,7 +6,7 @@ import com.sheep.game.entity.mob.Player;
 import com.sheep.game.entity.mob.meleeHitBox;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
-import com.sheep.game.level.CaveLevel.CaveLevel;
+import com.sheep.game.level.CaveLevel;
 import com.sheep.game.util.AudioManager;
 import com.sheep.game.util.input.Keyboard;
 import com.sheep.game.util.MathUtil;
@@ -20,7 +20,7 @@ public class pickaxe extends Item{
     float hitX, hitY;
 
     public pickaxe(Mob owner) {
-        super(owner, 30,  10);
+        super(owner, 30, 5, 10);
         random = new Random();
     }
 

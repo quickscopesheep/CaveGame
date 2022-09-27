@@ -8,6 +8,7 @@ public class Sprite {
 
     //level
     public static final Sprite wallSprite = new Sprite(0, 0, 16, 16, SpriteSheet.caveTiles);
+    public static final Sprite brickSprite = new Sprite(3*16, 0, 16, 16, SpriteSheet.caveTiles);
     public static final Sprite floor = new Sprite(16, 0, 16, 16, SpriteSheet.caveTiles);
 
     public static final Sprite crack1 = new Sprite(0, 16, 16, 16, SpriteSheet.caveTiles);

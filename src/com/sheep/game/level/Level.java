@@ -14,7 +14,7 @@ public class Level {
     protected int width, height;
     protected int[] tiles;
 
-    protected final long seed;
+    protected long seed;
 
     protected List<Entity> entities;
 
