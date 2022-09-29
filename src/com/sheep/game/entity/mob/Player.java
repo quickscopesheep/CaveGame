@@ -9,6 +9,7 @@ import com.sheep.game.entity.ItemDrop;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
+import com.sheep.game.util.AudioPlayer;
 import com.sheep.game.util.input.Keyboard;
 
 import java.util.Random;
@@ -21,6 +22,8 @@ public class Player extends Mob{
 
     Item[] items;
     int currentItem;
+
+    AudioPlayer footstepAudio;
 
     boolean itemButtonLast;
     boolean dropButtonLast;
@@ -47,6 +50,7 @@ public class Player extends Mob{
         stamina = maxStamina;
 
         random = new Random();
+        footstepAudio = new AudioPlayer();
 
         items = new Item[5];
         items[0] = new pickaxe(this);
@@ -64,7 +68,12 @@ public class Player extends Mob{
 
         moving = inputX != 0 || inputY != 0;
         frame++;
-        if(frame == 128) frame = 0;
+        if(frame == 7500) frame = 0;
+
+        if(frame % 24 == 0 && moving){
+             footstepAudio.loadSound("/sound/footstep" + random.nextInt(1, 2) + ".wav");
+             footstepAudio.play();
+        }
 
         float mag = (float)Math.sqrt(inputX*inputX + inputY*inputY);
 
@@ -178,9 +187,9 @@ public class Player extends Mob{
 
     @Override
     public void render(Screen screen) {
-        int anim = frame / 12 % 2;
+        int anim = frame % 24;
         if(moving){
-            screen.renderSpriteLit((int) x - 8, (int) y-8, anim == 1 ? Sprite.player : Sprite.player_walk, dirX == -1);
+            screen.renderSpriteLit((int) x - 8, (int) y-8, anim > 10 ? Sprite.player : Sprite.player_walk, dirX == -1);
         }else{
             screen.renderSpriteLit((int) x - 8, (int) y-8, Sprite.player, dirX == -1);
         }

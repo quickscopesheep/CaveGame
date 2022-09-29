@@ -7,7 +7,7 @@ import com.sheep.game.entity.mob.meleeHitBox;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.CaveLevel;
-import com.sheep.game.util.AudioManager;
+import com.sheep.game.util.AudioPlayer;
 import com.sheep.game.util.input.Keyboard;
 import com.sheep.game.util.MathUtil;
 
@@ -16,12 +16,15 @@ import java.util.Random;
 public class pickaxe extends Item{
     public static final float hitRange = 16;
 
+    AudioPlayer audio;
+
     Random random;
     float hitX, hitY;
 
     public pickaxe(Mob owner) {
         super(owner, 30, 5, 10);
         random = new Random();
+        audio = new AudioPlayer();
     }
 
     @Override
@@ -47,17 +50,20 @@ public class pickaxe extends Item{
         if(owner.getLevel().getTileIndex((int)(hitX/16), (int)(hitY/16)) > 0){
             ((CaveLevel)owner.getLevel()).getTileIntegrity()[((int)(hitX/16)) + ((int)(hitY/16))*owner.getLevel().getWidth()] -= 1;
             if(random.nextInt(10) > 5) {
-                Game.audioManager.loadSound(AudioManager.SFX_ROCK_HIT_1);
+                audio.loadSound(AudioPlayer.SFX_ROCK_HIT_1);
             }else{
-                Game.audioManager.loadSound(AudioManager.SFX_ROCK_HIT_2);
+                audio.loadSound(AudioPlayer.SFX_ROCK_HIT_2);
             }
-            Game.audioManager.play();
+            audio.play();
 
             if(((CaveLevel)owner.getLevel()).getTileIntegrity()[((int)(hitX/16)) + ((int)(hitY/16))*owner.getLevel().getWidth()] <= 0){
                 owner.getLevel().getTiles()[((int)(hitX/16)) + ((int)(hitY/16))*owner.getLevel().getWidth()] = 0;
-                Game.audioManager.loadSound(AudioManager.SFX_ROCK_DESTROY);
-                Game.audioManager.play();
+                audio.loadSound(AudioPlayer.SFX_ROCK_DESTROY);
+                audio.play();
             }
+        }else{
+            audio.loadSound(AudioPlayer.SFX_TOOL_SWING);
+            audio.play();
         }
 
         float attackDirY = MathUtil.NormalizeY(aimX, aimY);

@@ -3,13 +3,17 @@ package com.sheep.game.UI.Widgets;
 import com.sheep.game.Game;
 import com.sheep.game.UI.Menu;
 import com.sheep.game.gfx.Screen;
+import com.sheep.game.util.AudioPlayer;
 import com.sheep.game.util.input.Mouse;
 import com.sheep.game.util.input.MouseButtonListener;
+
+import javax.sound.sampled.AudioSystem;
 
 public abstract class Widget implements MouseButtonListener {
     int x, y, w, h;
 
     Menu parent;
+    AudioPlayer audio;
 
     boolean drawBackground;
     int backgroundColour;
@@ -23,6 +27,7 @@ public abstract class Widget implements MouseButtonListener {
         this.w = w;
         this.h = h;
         this.parent = parent;
+        this.audio = new AudioPlayer();
 
         Mouse.AddListener(this);
     }
@@ -111,5 +116,9 @@ public abstract class Widget implements MouseButtonListener {
 
     public void setH(int h) {
         this.h = h;
+    }
+
+    public AudioPlayer getAudio() {
+        return audio;
     }
 }

@@ -8,6 +8,7 @@ import com.sheep.game.entity.mob.EnemyUnits.Husk;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.Level;
 import com.sheep.game.level.tiles.Tile;
+import com.sheep.game.util.AudioPlayer;
 import com.sheep.game.util.Coord;
 import com.sheep.game.util.MathUtil;
 
@@ -32,11 +33,18 @@ public class CaveLevel extends Level {
 
     protected int floor;
 
+    AudioPlayer ambienceAudio;
+
     public CaveLevel(int width, int height, long seed, int floor) {
         super(width, height, seed);
         tileIntegrity = new int[width*height];
 
         this.floor = floor;
+
+        this.ambienceAudio = new AudioPlayer();
+        ambienceAudio.loadSound(AudioPlayer.AMBIENCE_CAVE_1);
+        ambienceAudio.play();
+        ambienceAudio.loop();
 
         generateLevel();
     }
@@ -80,9 +88,8 @@ public class CaveLevel extends Level {
         int distanceToSpawn = 0;
         switch (Game.settings.difficulty){
             case 0 -> distanceToSpawn = 24;
-            case 1 -> distanceToSpawn = 28;
+            default -> distanceToSpawn = 28;
             case 2 -> distanceToSpawn = 32;
-            case 3 -> distanceToSpawn = 42;
         }
 
         boolean success = false;

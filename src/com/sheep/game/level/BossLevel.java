@@ -25,7 +25,10 @@ public class BossLevel extends CaveLevel{
         for(int y = 0; y < s.height; y++){
             for (int x = 0; x < s.width; x++){
                 if(ax+x > 0 | ax+x < width-1 || ay+y > 0 || ay+y < width-1){
-                    tiles[(ay+y) * width + (ax+x)] = s.tiles[y*s.width+x];
+                    if(s.tiles[y*s.width+x] == 1){
+                        tiles[(ay+y) * width + (ax+x)] = 1;
+                        tileIntegrity[(ay+y) * width + (ax+x)] = 4;
+                    }
                 }
             }
         }

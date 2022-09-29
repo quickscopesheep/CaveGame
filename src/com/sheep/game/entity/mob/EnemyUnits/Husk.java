@@ -8,7 +8,7 @@ import com.sheep.game.level.Level;
 import com.sheep.game.util.MathUtil;
 
 public class Husk extends Unit{
-    private static final float moveSpeed = (float) 16 / 60;
+    public static final float moveSpeed = (float) 16 / 60;
 
     float damageCoolDown, moveCoolDown;
 

@@ -4,24 +4,27 @@ import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.Level;
-import com.sheep.game.util.AudioManager;
+import com.sheep.game.util.AudioPlayer;
 
 public class ItemDrop extends Entity{
     Item drop;
     float pickupDelay;
 
+    AudioPlayer audio;
+
     public ItemDrop(float x, float y, Level level, Item drop, float pickupDelay) {
         super(x, y, 16, 16, 0, 0, EntityType.ITEM_DROP, level);
         this.drop = drop;
         this.pickupDelay = pickupDelay;
+        this.audio = new AudioPlayer();
     }
 
     @Override
     public void tick() {
         if(collision(Game.player) && pickupDelay <= 0){
             if(Game.player.pickupItem(drop)){
-                Game.audioManager.loadSound(AudioManager.SFX_PICKUP);
-                Game.audioManager.play();
+                audio.loadSound(AudioPlayer.SFX_PICKUP);
+                audio.play();
                 level.Remove(this);
             }
         }

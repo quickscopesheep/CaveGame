@@ -1,16 +1,14 @@
 package com.sheep.game;
 
-import com.sheep.game.UI.LogoMenu;
+import com.sheep.game.UI.MainMenu;
 import com.sheep.game.UI.Menu;
 import com.sheep.game.UI.RespawnMenu;
-import com.sheep.game.entity.Door;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.BossLevel;
 import com.sheep.game.level.CaveLevel;
 import com.sheep.game.level.Level;
-import com.sheep.game.util.AudioManager;
 import com.sheep.game.util.input.Keyboard;
 import com.sheep.game.util.input.Mouse;
 
@@ -30,7 +28,6 @@ public class Game extends Canvas implements Runnable{
     private JFrame frame;
 
     public static Screen screen;
-    public static AudioManager audioManager;
 
     public static Level[] levels;
     public static int currentLevel;
@@ -54,9 +51,8 @@ public class Game extends Canvas implements Runnable{
 
         frame = new JFrame();
         screen = new Screen(WIDTH, HEIGHT);
-        audioManager = new AudioManager();
 
-        currentMenu = LogoMenu.menu;
+        currentMenu = MainMenu.menu;
 
         Keyboard keyboard = new Keyboard();
         Mouse mouse = new Mouse();
@@ -77,9 +73,6 @@ public class Game extends Canvas implements Runnable{
             else
                 levels[i] = new CaveLevel(64, 64, System.currentTimeMillis(), i);
         }
-
-        //getLevel().Add(new Door(((CaveLevel)getLevel()).getPlayerStart().x*16+32, ((CaveLevel)getLevel()).getPlayerStart().y*16,
-        //        getLevel(), 1, false));
 
         getLevel().Add(player = new Player(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16,
                 getLevel()));
