@@ -2,8 +2,7 @@ package com.sheep.game.entity.mob;
 
 import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
-import com.sheep.game.Items.pickaxe;
-import com.sheep.game.UI.Widgets.VerticalLayoutGroup;
+import com.sheep.game.Items.items.pickaxe;
 import com.sheep.game.entity.EntityType;
 import com.sheep.game.entity.ItemDrop;
 import com.sheep.game.gfx.Screen;
@@ -53,7 +52,6 @@ public class Player extends Mob{
         footstepAudio = new AudioPlayer();
 
         items = new Item[5];
-        items[0] = new pickaxe(this);
         equip(items[0]);
     }
 

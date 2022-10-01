@@ -1,8 +1,14 @@
 package com.sheep.game;
 
+import com.sheep.game.Items.Item;
+import com.sheep.game.Items.items.bomb;
+import com.sheep.game.Items.items.pickaxe;
+import com.sheep.game.Items.items.sword;
 import com.sheep.game.UI.MainMenu;
 import com.sheep.game.UI.Menu;
 import com.sheep.game.UI.RespawnMenu;
+import com.sheep.game.entity.ItemDrop;
+import com.sheep.game.entity.mob.Chest;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
@@ -19,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 
 public class Game extends Canvas implements Runnable{
@@ -41,6 +48,8 @@ public class Game extends Canvas implements Runnable{
 
     public static GameSettings settings;
 
+    private static Random random;
+
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 
@@ -51,6 +60,8 @@ public class Game extends Canvas implements Runnable{
 
         frame = new JFrame();
         screen = new Screen(WIDTH, HEIGHT);
+
+        random = new Random();
 
         currentMenu = MainMenu.menu;
 
@@ -76,6 +87,8 @@ public class Game extends Canvas implements Runnable{
 
         getLevel().Add(player = new Player(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16,
                 getLevel()));
+
+        player.pickupItem(new pickaxe(player));
 
         gameStarted = true;
         currentMenu = null;
@@ -250,26 +263,34 @@ public class Game extends Canvas implements Runnable{
     }
 
     public static void ChangeLevel(int level){
-        player.setLevel(levels[level]);
-
         levels[currentLevel].Remove(player);
+
         levels[level].Add(player);
+
+        currentLevel = level;
+        player.setLevel(levels[level]);
 
         player.setX(((CaveLevel)levels[level]).getPlayerStart().x*16);
         player.setY(((CaveLevel)levels[level]).getPlayerStart().y*16);
-
-        currentLevel = level;
     }
 
     public static void respawnPlayer(){
-        player = new Player(((CaveLevel)levels[0]).getPlayerStart().x*16, ((CaveLevel)levels[0]).getPlayerStart().y*16, levels[0]);
-        levels[0].Add(player);
+        player = new Player(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16, getLevel());
+        getLevel().Add(player);
+
         gameStarted = true;
         currentMenu = null;
     }
 
     public static void playerDead(){
+        for (Item item : player.getItems()) {
+            if(item == null) continue;
+            levels[currentLevel].Add(new ItemDrop(player.getX() + random.nextInt(-8, 8),
+                    player.getY() + random.nextInt(-8, 8), levels[currentLevel], item, 0));
+        }
+
         gameStarted = false;
         currentMenu = RespawnMenu.menu;
+        ((CaveLevel) getLevel()).stopAmbient();
     }
 }

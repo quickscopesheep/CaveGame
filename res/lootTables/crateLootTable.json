@@ -1,0 +1,14 @@
+[
+  {
+    "item_name" : "com.sheep.game.Items.items.sword",
+    "weight" : "20"
+  },
+  {
+    "item_name" : "com.sheep.game.Items.items.medkit",
+    "weight" : "45"
+  },
+  {
+    "item_name" : "com.sheep.game.Items.items.bomb",
+    "weight" : "35"
+  }
+]

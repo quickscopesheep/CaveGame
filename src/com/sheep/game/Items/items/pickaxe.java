@@ -1,6 +1,8 @@
-package com.sheep.game.Items;
+package com.sheep.game.Items.items;
 
-import com.sheep.game.Game;
+
+
+import com.sheep.game.Items.Item;
 import com.sheep.game.entity.mob.Mob;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.entity.mob.meleeHitBox;
@@ -13,7 +15,7 @@ import com.sheep.game.util.MathUtil;
 
 import java.util.Random;
 
-public class pickaxe extends Item{
+public class pickaxe extends Item {
     public static final float hitRange = 16;
 
     AudioPlayer audio;
@@ -22,7 +24,7 @@ public class pickaxe extends Item{
     float hitX, hitY;
 
     public pickaxe(Mob owner) {
-        super(owner, 30, 5, 10);
+        super(owner, 25, 4, 5);
         random = new Random();
         audio = new AudioPlayer();
     }
@@ -69,7 +71,7 @@ public class pickaxe extends Item{
         float attackDirY = MathUtil.NormalizeY(aimX, aimY);
         float attackDirX = MathUtil.NormalizeX(aimX, aimY);
 
-        owner.getLevel().Add(new meleeHitBox(owner.getX()-8 + attackDirX*12, owner.getY()-8 + attackDirY*12, owner.getLevel(), owner, 10, 10, 3));
+        owner.getLevel().Add(new meleeHitBox(owner.getX()-8 + attackDirX*12, owner.getY()-8 + attackDirY*12, owner.getLevel(), owner, 10, 15, 3));
         ((Player)owner).useStamina(staminaUse);
     }
 

@@ -20,7 +20,7 @@ public abstract class Unit extends Mob {
     @Override
     public void Damage(float damage, float knockBackX, float knockBackY, float knockBackTime) {
         super.Damage(damage, knockBackX, knockBackY, knockBackTime);
-        audio.loadSound("/sound/damage1.wav");
+        audio.loadSound(AudioPlayer.SFX_MOB_HIT);
         audio.play();
     }
 

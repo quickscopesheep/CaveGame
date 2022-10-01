@@ -21,7 +21,7 @@ public class MainMenu extends Menu{
 
     @Override
     protected void constructMenu() {
-        AddWidget(new TextWidget(Game.WIDTH/2, Game.HEIGHT/2 - 32, this, "Untitled", 0xee0000));
+        AddWidget(new TextWidget(Game.WIDTH/2, Game.HEIGHT/2 - 32, this, "Cave Game", 0xee0000));
 
         VerticalLayoutGroup group;
         AddWidget(group = new VerticalLayoutGroup(Game.WIDTH/2, Game.HEIGHT/2, this, 2, 2));

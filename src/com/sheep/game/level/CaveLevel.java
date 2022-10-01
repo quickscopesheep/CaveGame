@@ -43,6 +43,7 @@ public class CaveLevel extends Level {
 
         this.ambienceAudio = new AudioPlayer();
         ambienceAudio.loadSound(AudioPlayer.AMBIENCE_CAVE_1);
+
         ambienceAudio.play();
         ambienceAudio.loop();
 
@@ -264,5 +265,9 @@ public class CaveLevel extends Level {
 
     public int getFloor() {
         return floor;
+    }
+
+    public void stopAmbient(){
+        ambienceAudio.stop();
     }
 }

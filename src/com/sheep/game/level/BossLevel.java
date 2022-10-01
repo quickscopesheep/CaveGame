@@ -35,12 +35,11 @@ public class BossLevel extends CaveLevel{
     }
 
     void generateStructures(Random random){
-        List<Structure> blueprints = Structure.loadStructures("structures/BossLevelStructures.json");
+        List<Structure> blueprints = Structure.loadStructures("res/structures/BossLevelStructures.json");
         List<Coord> structureCoords = new ArrayList<>();
 
         int centerX = width/2, centerY = height/2;
 
-        boolean valid = true;
         for(int iterations = 0; iterations < 1000; iterations++){
 
             int x = random.nextInt(4, width - 5);
@@ -81,7 +80,7 @@ public class BossLevel extends CaveLevel{
 
         generateStructures(random);
 
-        playerStart = new Coord(centerX,  centerY);
+        playerStart = new Coord(centerX - width/4,  centerY);
 
         for(int y = 0; y < height; y++)
             for(int x = 0; x < width; x++)

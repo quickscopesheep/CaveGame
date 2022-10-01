@@ -1,5 +1,6 @@
-package com.sheep.game.Items;
+package com.sheep.game.Items.items;
 
+import com.sheep.game.Items.Item;
 import com.sheep.game.entity.EntityType;
 import com.sheep.game.entity.mob.Mob;
 import com.sheep.game.entity.mob.Player;
@@ -8,7 +9,7 @@ import com.sheep.game.gfx.Sprite;
 
 import java.util.Random;
 
-public class medkit extends Item{
+public class medkit extends Item {
     Random random;
 
     public medkit(Mob owner) {

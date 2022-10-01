@@ -7,5 +7,6 @@ public enum EntityType {
     CHEST,
     MELEE_HIT_COL,
     ITEM_DROP,
-    DOOR
+    DOOR,
+    BOMB
 }

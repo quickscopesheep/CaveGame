@@ -1,21 +1,28 @@
 package com.sheep.game.entity.mob;
 
-import com.sheep.game.Items.medkit;
+import com.sheep.game.Items.Item;
+import com.sheep.game.Items.lootTable.LootTable;
+import com.sheep.game.Items.items.medkit;
 import com.sheep.game.entity.EntityType;
 import com.sheep.game.entity.ItemDrop;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 public class Chest extends Mob{
     boolean open;
 
+    LootTable lootTable;
+
     public Chest(float x, float y, Level level) {
         super(x, y, 16, 16, 9999, EntityType.CHEST, level);
         health = 9999;
         open = false;
+        lootTable = new LootTable("res/lootTables/crateLootTable.json");
     }
 
     @Override
@@ -38,7 +45,17 @@ public class Chest extends Mob{
         int offsetX = random.nextInt(-8, 8);
         int offsetY = random.nextInt(-8, 8);
 
-        level.Add(new ItemDrop(x + offsetX, y + offsetY, level, new medkit(null), 0));
+        //level.Add(new ItemDrop(x + offsetX, y + offsetY, level, new medkit(null), 0));
+
+        try {
+            Class<?> itemClass = Class.forName(lootTable.getRandomDrop().itemClassName);
+            Constructor<?> itemConstructor = itemClass.getConstructor(Mob.class);
+            Item item = (Item)itemConstructor.newInstance((Mob)null);
+
+            level.Add(new ItemDrop(x + offsetX, y + offsetY, level, item, 0));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

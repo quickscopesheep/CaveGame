@@ -39,6 +39,9 @@ public class Sprite {
     public static final Sprite item_shotgun = new Sprite(0, 0, 16, 16, SpriteSheet.items);
     public static final Sprite item_medkit = new Sprite(0, 16, 16, 16, SpriteSheet.items);
     public static final Sprite item_map = new Sprite(48, 0, 16, 16, SpriteSheet.items);
+    public static final Sprite item_sword = new Sprite(16, 32, 16, 16, SpriteSheet.items);
+    public static final Sprite item_bomb = new Sprite(16, 16, 16, 16, SpriteSheet.items);
+    public static final Sprite item_bomb_lit = new Sprite(32, 16, 16, 16, SpriteSheet.items);
 
     //UI
     public static final Sprite UI_ItemFrame = new Sprite(0, 0, 16, 16, SpriteSheet.UI);
