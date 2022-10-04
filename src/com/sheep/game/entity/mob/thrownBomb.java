@@ -6,6 +6,7 @@ import com.sheep.game.entity.EntityType;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
 import com.sheep.game.level.Level;
+import com.sheep.game.util.AudioPlayer;
 import com.sheep.game.util.MathUtil;
 
 public class thrownBomb extends Mob{
@@ -17,11 +18,22 @@ public class thrownBomb extends Mob{
     float velX, velY;
     int time;
 
+    AudioPlayer fuzeAudio;
+    AudioPlayer explodeAudio;
+
     public thrownBomb(float x, float y, float velX, float velY, Level level) {
         super(x, y, 12, 14, 2, 1, 9999, 9999, EntityType.BOMB, level);
         this.velX = velX;
         this.velY = velY;
         this.time = FUZE_TIME;
+
+        fuzeAudio = new AudioPlayer();
+        fuzeAudio.loadSound(AudioPlayer.SFX_BOMB_FUZE);
+
+        explodeAudio = new AudioPlayer();
+        explodeAudio.loadSound(AudioPlayer.SFX_BOMB_EXPLODE);
+
+        fuzeAudio.play();
     }
 
     @Override
@@ -37,6 +49,9 @@ public class thrownBomb extends Mob{
     }
 
     void explode(){
+        fuzeAudio.stop();
+        explodeAudio.play();
+
         int tileX = (int)(x/16);
         int tileY = (int)(y/16);
 

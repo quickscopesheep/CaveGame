@@ -7,10 +7,14 @@ import com.sheep.game.entity.mob.Player;
 import com.sheep.game.entity.mob.thrownBomb;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
+import com.sheep.game.util.AudioPlayer;
 import com.sheep.game.util.input.Keyboard;
 
 public class bomb extends Item {
     private static final float THROW_FORCE = 4f;
+
+    AudioPlayer fuzeAudio;
+    AudioPlayer explodeAudio;
 
     public bomb(Mob owner) {
         super(owner);

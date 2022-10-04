@@ -15,6 +15,9 @@ public class AudioPlayer {
     public static String SFX_SWORD_SWING = "/sound/swordswing.wav";
     public static String SFX_MOB_HIT = "/sound/damage1.wav";
 
+    public static String SFX_BOMB_FUZE = "/sound/bombfuze.wav";
+    public static String SFX_BOMB_EXPLODE = "/sound/explode.wav";
+
     public static String AMBIENCE_CAVE_1 = "/sound/caveambience1.wav";
     public static String AMBIENCE_CAVE_2 = "/sound/caveambience2.wav";
     public static String AMBIENCE_CAVE_3 = "/sound/caveambience3.wav";
