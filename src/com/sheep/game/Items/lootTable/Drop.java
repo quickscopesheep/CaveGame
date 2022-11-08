@@ -1,11 +1,11 @@
 package com.sheep.game.Items.lootTable;
 
 public class Drop {
-    public String itemClassName;
+    public Class itemClass;
     public int weight;
 
-    public Drop(String itemClassName, int weight) {
-        this.itemClassName = itemClassName;
+    public Drop(Class itemClassName, int weight) {
+        this.itemClass = itemClassName;
         this.weight = weight;
     }
 }

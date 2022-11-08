@@ -5,12 +5,11 @@ import com.sheep.game.UI.Menu;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.util.AudioPlayer;
 import com.sheep.game.util.input.Mouse;
-import com.sheep.game.util.input.MouseButtonListener;
 
-import javax.sound.sampled.AudioSystem;
-
-public abstract class Widget implements MouseButtonListener {
+public abstract class Widget{
     int x, y, w, h;
+
+    Game game;
 
     Menu parent;
     AudioPlayer audio;
@@ -21,7 +20,9 @@ public abstract class Widget implements MouseButtonListener {
     boolean drawBorder;
     int borderColour;
 
-    public Widget(int x, int y, int w, int h, Menu parent){
+    boolean wasActiveLast;
+
+    public Widget(int x, int y, int w, int h, Menu parent, Game game){
         this.x = x;
         this.y = y;
         this.w = w;
@@ -30,22 +31,21 @@ public abstract class Widget implements MouseButtonListener {
         this.audio = new AudioPlayer();
 
         Mouse.AddListener(this);
+        this.game = game;
     }
 
-    @Override
     public void MouseButtonDown(int button) {
-        if(Game.currentMenu != parent && parent != null) return;
-
         int actualX = x - (w/2);
         int actualY = y - (h/2);
 
         if(Mouse.getMouseX() > actualX && Mouse.getMouseX() < actualX+w
                 && Mouse.getMouseY() > actualY && Mouse.getMouseY() < actualY+h){
-            OnClick();
+            if(game.currentMenu == parent || parent == null)
+                OnClick(game);
         }
     }
 
-    public abstract void OnClick();
+    public abstract void OnClick(Game game);
 
     public void tick(){
     }

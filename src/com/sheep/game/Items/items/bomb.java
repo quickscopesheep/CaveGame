@@ -1,5 +1,6 @@
 package com.sheep.game.Items.items;
 
+import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
 import com.sheep.game.entity.EntityType;
 import com.sheep.game.entity.mob.Mob;
@@ -16,8 +17,8 @@ public class bomb extends Item {
     AudioPlayer fuzeAudio;
     AudioPlayer explodeAudio;
 
-    public bomb(Mob owner) {
-        super(owner);
+    public bomb(Mob owner, Game game) {
+        super(owner, game);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class bomb extends Item {
             aimX ++;
         }
 
-        owner.getLevel().Add(new thrownBomb(owner.getX() + aimX*8, owner.getY() + aimY*8, aimX*THROW_FORCE, aimY * THROW_FORCE, owner.getLevel()));
+        owner.getLevel().Add(new thrownBomb(owner.getX() + aimX*8, owner.getY() + aimY*8, aimX*THROW_FORCE, aimY * THROW_FORCE, owner.getLevel(), game));
         owner.equip(null);
         if(owner.getType() == EntityType.PLAYER){
             ((Player)owner).getItems()[((Player)owner).getCurrentItem()] = null;

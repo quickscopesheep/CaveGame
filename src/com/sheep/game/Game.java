@@ -1,31 +1,31 @@
 package com.sheep.game;
 
 import com.sheep.game.Items.Item;
-import com.sheep.game.Items.items.bomb;
 import com.sheep.game.Items.items.pickaxe;
-import com.sheep.game.Items.items.sword;
-import com.sheep.game.UI.MainMenu;
+import com.sheep.game.UI.*;
 import com.sheep.game.UI.Menu;
-import com.sheep.game.UI.RespawnMenu;
 import com.sheep.game.entity.ItemDrop;
-import com.sheep.game.entity.mob.Chest;
 import com.sheep.game.entity.mob.Player;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.gfx.Sprite;
-import com.sheep.game.level.BossLevel;
 import com.sheep.game.level.CaveLevel;
 import com.sheep.game.level.Level;
 import com.sheep.game.util.input.Keyboard;
 import com.sheep.game.util.input.Mouse;
 
-import javax.swing.JFrame;
-import java.awt.Canvas;
-import java.awt.Dimension;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Random;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+
+import static java.util.Map.entry;
 
 
 public class Game extends Canvas implements Runnable{
@@ -34,19 +34,19 @@ public class Game extends Canvas implements Runnable{
     private Thread thread;
     private JFrame frame;
 
-    public static Screen screen;
+    public Screen screen;
 
-    public static Level[] levels;
-    public static int currentLevel;
+    public Level[] levels;
+    public int currentLevel;
 
-    public static Player player;
+    public Player player;
 
-    public static Menu currentMenu;
+    public Menu currentMenu;
 
-    public static boolean running;
-    public static boolean gameStarted;
+    public boolean running;
+    public boolean gameStarted;
 
-    public static GameSettings settings;
+    public GameSettings settings;
 
     private static Random random;
 
@@ -55,15 +55,24 @@ public class Game extends Canvas implements Runnable{
 
     int xScroll, yScroll;
 
+    public Map<String, Menu> menus;
+
     public Game(){
         setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
         frame = new JFrame();
-        screen = new Screen(WIDTH, HEIGHT);
+        screen = new Screen(WIDTH, HEIGHT, this);
 
         random = new Random();
 
-        currentMenu = MainMenu.menu;
+        menus = Map.ofEntries(
+                entry("main", new MainMenu(this)),
+                entry("start", new StartGameMenu(this)),
+                entry("respawn", new RespawnMenu(this)),
+                entry("win", new WinMenu(this))
+        );
+
+        switchMenu("main");
 
         Keyboard keyboard = new Keyboard();
         Mouse mouse = new Mouse();
@@ -73,32 +82,29 @@ public class Game extends Canvas implements Runnable{
         addMouseMotionListener(mouse);
     }
 
-    public static void StartGame(GameSettings gameSettings){
+    public void StartGame(GameSettings gameSettings){
+        switchMenu("");
         settings = gameSettings;
 
         currentLevel = 0;
         levels = new Level[settings.floors];
+
         for(int i = 0; i < settings.floors; i++){
-            if(i == settings.floors-1)
-                levels[i] = new BossLevel(24, 24, System.currentTimeMillis(), i);
-            else
-                levels[i] = new CaveLevel(64, 64, System.currentTimeMillis(), i);
+            levels[i] = new CaveLevel(64, 64, System.currentTimeMillis(), i, this);
         }
 
         getLevel().Add(player = new Player(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16,
-                getLevel()));
+                getLevel(), this));
 
-        player.pickupItem(new pickaxe(player));
+        player.pickupItem(new pickaxe(player, this));
 
         gameStarted = true;
-        currentMenu = null;
 
         System.out.println("Level Seed: " + getLevel().getSeed() + " , Difficulty: " + settings.difficulty);
     }
 
     public synchronized void start(){
         thread = new Thread(this, "Display");
-        running = true;
         thread.start();
     }
 
@@ -112,6 +118,7 @@ public class Game extends Canvas implements Runnable{
     }
 
     void tick(){
+
         if(currentMenu == null){
             if(gameStarted) {
                 getLevel().tick();
@@ -206,6 +213,7 @@ public class Game extends Canvas implements Runnable{
 
     @Override
     public void run() {
+        running = true;
         long lastTime = System.nanoTime();
         long timer = System.currentTimeMillis();
         double ns = 1000000000 / 60.0;
@@ -238,7 +246,7 @@ public class Game extends Canvas implements Runnable{
         stop();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Game game = new Game();
 
         game.frame.setResizable(false);
@@ -251,18 +259,32 @@ public class Game extends Canvas implements Runnable{
         game.frame.setLocationRelativeTo(null);
         game.frame.setVisible(true);
 
+        BufferedImage image;
+
+        try {
+            image = ImageIO.read(Game.class.getResource("/icon.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        game.frame.setIconImage(image);
+
         game.start();
     }
 
-    public static Level getLevel(){
+    public Level getLevel(){
         return levels[currentLevel];
     }
 
-    public static int getLevelIndex(){
+    public int getLevelIndex(){
         return currentLevel;
     }
 
-    public static void ChangeLevel(int level){
+    public void ChangeLevel(int level){
+        if(level == settings.floors){
+            winCondition();
+        }
+
         levels[currentLevel].Remove(player);
 
         levels[level].Add(player);
@@ -274,23 +296,36 @@ public class Game extends Canvas implements Runnable{
         player.setY(((CaveLevel)levels[level]).getPlayerStart().y*16);
     }
 
-    public static void respawnPlayer(){
-        player = new Player(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16, getLevel());
+    public void switchMenu(String menu){
+        if(menu == null || menu.isBlank() || menu.isEmpty()){
+            currentMenu = null;
+        }
+        
+        currentMenu = menus.get(menu);
+    }
+
+    public void respawnPlayer(){
+        player = new Player(((CaveLevel)getLevel()).getPlayerStart().x*16, ((CaveLevel)getLevel()).getPlayerStart().y*16, getLevel(), this);
         getLevel().Add(player);
 
         gameStarted = true;
-        currentMenu = null;
+        switchMenu("");
     }
 
-    public static void playerDead(){
+    public void playerDead(){
         for (Item item : player.getItems()) {
             if(item == null) continue;
             levels[currentLevel].Add(new ItemDrop(player.getX() + random.nextInt(-8, 8),
-                    player.getY() + random.nextInt(-8, 8), levels[currentLevel], item, 0));
+                    player.getY() + random.nextInt(-8, 8), levels[currentLevel], item, 0, this));
         }
 
         gameStarted = false;
-        currentMenu = RespawnMenu.menu;
+        switchMenu("respawn");
         ((CaveLevel) getLevel()).stopAmbient();
+        Player.deaths++;
+    }
+
+    public void winCondition(){
+        switchMenu("win");
     }
 }

@@ -6,8 +6,8 @@ import com.sheep.game.UI.Widgets.Widget;
 
 public class RestartGameCallback extends IButton {
     @Override
-    public void OnClick(Widget widget) {
-        super.OnClick(widget);
-        Game.respawnPlayer();
+    public void OnClick(Widget widget, Game game) {
+        super.OnClick(widget, game);
+        game.respawnPlayer();
     }
 }

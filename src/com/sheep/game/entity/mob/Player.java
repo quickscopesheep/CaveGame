@@ -16,6 +16,9 @@ import java.util.Random;
 public class Player extends Mob{
     private static final float moveSpeed = (float) 42 / 60;
 
+    public static int deaths = 0;
+    public static int kills = 0;
+
     boolean moving;
     int frame;
 
@@ -43,8 +46,8 @@ public class Player extends Mob{
 
     Random random;
 
-    public Player(int x, int y, Level level) {
-        super(x, y, 12, 14, 0, 2, 25, 25, EntityType.PLAYER, level);
+    public Player(int x, int y, Level level, Game game) {
+        super(x, y, 12, 14, 0, 2, 25, 25, EntityType.PLAYER, level, game);
         maxStamina = 100;
         stamina = maxStamina;
 
@@ -116,7 +119,7 @@ public class Player extends Mob{
             staminaRegenTimer--;
         }
 
-        if(!moving & health < maxHealth*.75 && healthRegenStartTimer <= 0 && Game.settings.difficulty < 3){
+        if(!moving & health < maxHealth*.75 && healthRegenStartTimer <= 0 && game.settings.difficulty < 3){
             if(healthRegenTimer <= 0){
                 health += .5;
                 healthRegenTimer = healthRegenTime;
@@ -132,7 +135,7 @@ public class Player extends Mob{
     public void Damage(float damage, float knockBackX, float knockBackY, float knockBackTime) {
         super.Damage(damage, knockBackX, knockBackY, knockBackTime);
         healthRegenTimer = healthRegenTime;
-        if(health <= 0) Game.playerDead();
+        if(health <= 0) game.playerDead();
     }
 
     @Override
@@ -171,7 +174,7 @@ public class Player extends Mob{
         Item itemToDrop = items[index];
         items[index] = null;
         item = null;
-        level.Add(new ItemDrop(this.x + dirX*16, this.getY() + dirY*16, level, itemToDrop, 30));
+        level.Add(new ItemDrop(this.x + dirX*16, this.getY() + dirY*16, level, itemToDrop, 30, game));
     }
 
     void equipFromHotbar(int index){

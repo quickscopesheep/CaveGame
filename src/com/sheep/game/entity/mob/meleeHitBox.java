@@ -1,5 +1,6 @@
 package com.sheep.game.entity.mob;
 
+import com.sheep.game.Game;
 import com.sheep.game.entity.Entity;
 import com.sheep.game.entity.EntityType;
 import com.sheep.game.gfx.Screen;
@@ -20,8 +21,8 @@ public class meleeHitBox extends Mob{
 
     List<Entity> hitEntities = new ArrayList<>();
 
-    public meleeHitBox(float x, float y, Level level, Mob instigator, int damage, float knockback, int lifeTime) {
-        super(x, y, 24, 24, 99999, EntityType.MELEE_HIT_COL, level);
+    public meleeHitBox(float x, float y, Level level, Mob instigator, int damage, float knockback, int lifeTime, Game game) {
+        super(x, y, 24, 24, 99999, EntityType.MELEE_HIT_COL, level, game);
         this.instigator = instigator;
         this.damage = damage;
         this.knockBack = knockback;

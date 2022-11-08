@@ -1,5 +1,6 @@
 package com.sheep.game.level;
 
+import com.sheep.game.Game;
 import com.sheep.game.entity.Entity;
 import com.sheep.game.entity.EntityType;
 import com.sheep.game.entity.mob.EnemyUnits.Unit;

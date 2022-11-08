@@ -6,15 +6,15 @@ import com.sheep.game.UI.Widgets.IButton;
 import com.sheep.game.UI.Widgets.Widget;
 
 public class SwitchMenuCallback extends IButton {
-    public SwitchMenuCallback(Menu menu) {
+    public SwitchMenuCallback(String menu) {
         this.menu = menu;
     }
 
-    Menu menu;
+    String menu;
 
     @Override
-    public void OnClick(Widget widget) {
-        super.OnClick(widget);
-        Game.currentMenu = menu;
+    public void OnClick(Widget widget, Game game) {
+        super.OnClick(widget,game);
+        game.switchMenu(menu);
     }
 }

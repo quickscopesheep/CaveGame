@@ -1,5 +1,6 @@
 package com.sheep.game.Items.items;
 
+import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
 import com.sheep.game.entity.mob.Mob;
 import com.sheep.game.entity.mob.Player;
@@ -19,10 +20,9 @@ public class sword extends Item {
     AudioPlayer audio;
 
     Random random;
-    float hitX, hitY;
 
-    public sword(Mob owner) {
-        super(owner, 20, 2, 7);
+    public sword(Mob owner, Game game) {
+        super(owner, 20, 2, 7, game);
         random = new Random();
         audio = new AudioPlayer();
     }
@@ -51,7 +51,8 @@ public class sword extends Item {
         float attackDirY = MathUtil.NormalizeY(aimX, aimY);
         float attackDirX = MathUtil.NormalizeX(aimX, aimY);
 
-        owner.getLevel().Add(new meleeHitBox(owner.getX() - 8 + attackDirX * 12, owner.getY() - 8 + attackDirY * 12, owner.getLevel(), owner, 15, 10, 3));
+        owner.getLevel().Add(new meleeHitBox(owner.getX() - 8 + attackDirX * 12, owner.getY() - 8 + attackDirY * 12, owner.getLevel(), owner, 15,
+                10, 3, game));
         ((Player) owner).useStamina(staminaUse);
     }
 

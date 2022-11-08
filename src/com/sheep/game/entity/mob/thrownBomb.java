@@ -1,5 +1,6 @@
 package com.sheep.game.entity.mob;
 
+import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
 import com.sheep.game.entity.Entity;
 import com.sheep.game.entity.EntityType;
@@ -21,8 +22,8 @@ public class thrownBomb extends Mob{
     AudioPlayer fuzeAudio;
     AudioPlayer explodeAudio;
 
-    public thrownBomb(float x, float y, float velX, float velY, Level level) {
-        super(x, y, 12, 14, 2, 1, 9999, 9999, EntityType.BOMB, level);
+    public thrownBomb(float x, float y, float velX, float velY, Level level, Game game) {
+        super(x, y, 12, 14, 2, 1, 9999, 9999, EntityType.BOMB, level, game);
         this.velX = velX;
         this.velY = velY;
         this.time = FUZE_TIME;

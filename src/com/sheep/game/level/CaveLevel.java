@@ -35,11 +35,14 @@ public class CaveLevel extends Level {
 
     AudioPlayer ambienceAudio;
 
-    public CaveLevel(int width, int height, long seed, int floor) {
+    Game game;
+
+    public CaveLevel(int width, int height, long seed, int floor, Game game) {
         super(width, height, seed);
         tileIntegrity = new int[width*height];
 
         this.floor = floor;
+        this.game = game;
 
         this.ambienceAudio = new AudioPlayer();
         ambienceAudio.loadSound(AudioPlayer.AMBIENCE_CAVE_1);
@@ -87,7 +90,7 @@ public class CaveLevel extends Level {
         Coord doorSpawnCoord = new Coord(0, 0);
 
         int distanceToSpawn = 0;
-        switch (Game.settings.difficulty){
+        switch (game.settings.difficulty){
             case 0 -> distanceToSpawn = 24;
             default -> distanceToSpawn = 28;
             case 2 -> distanceToSpawn = 32;
@@ -108,9 +111,9 @@ public class CaveLevel extends Level {
             }
         }
         if(success) {
-            this.Add(new Door(doorSpawnCoord.x * 16, doorSpawnCoord.y * 16, this, floor + 1, false));
+            this.Add(new Door(doorSpawnCoord.x * 16, doorSpawnCoord.y * 16, this, floor + 1, false, game));
             if(floor != 0)
-                Add(new Door(playerStart.x * 16, playerStart.y * 16, this, 0, true));
+                Add(new Door(playerStart.x * 16, playerStart.y * 16, this, 0, true, game));
         } else {
             System.out.print("failed to generate Door in seed: " + seed);
             seed = System.currentTimeMillis();
@@ -148,7 +151,7 @@ public class CaveLevel extends Level {
         }
 
         for(Coord c : mobSpawnCoords) {
-            this.Add(new Husk(c.x * 16, c.y * 16, this));
+            this.Add(new Husk(c.x * 16, c.y * 16, this, game));
         }
 
     }
@@ -182,7 +185,7 @@ public class CaveLevel extends Level {
         }
 
         for(Coord c : chestSpawnCoords) {
-            this.Add(new Chest(c.x * 16, c.y * 16, this));
+            this.Add(new Chest(c.x * 16, c.y * 16, this, game));
         }
     }
 
@@ -213,8 +216,8 @@ public class CaveLevel extends Level {
             smoothMap();
         }
 
-        minEnemies += Game.settings.difficulty*8;
-        minChests -= (Game.settings.difficulty-1);
+        minEnemies += game.settings.difficulty*8;
+        minChests -= (game.settings.difficulty-1);
 
         spawnDoors(random);
         spawnChests(random);
@@ -269,5 +272,9 @@ public class CaveLevel extends Level {
 
     public void stopAmbient(){
         ambienceAudio.stop();
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

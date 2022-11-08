@@ -1,5 +1,6 @@
 package com.sheep.game.entity.mob;
 
+import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
 import com.sheep.game.entity.Entity;
 import com.sheep.game.entity.EntityType;
@@ -15,22 +16,22 @@ public class Mob extends Entity {
 
     protected Item item;
 
-    public Mob(float x, float y, float xBound, float yBound, float maxHealth, EntityType type, Level level) {
-        super(x, y, xBound, yBound, 0, 0, type, level);
+    public Mob(float x, float y, float xBound, float yBound, float maxHealth, EntityType type, Level level, Game game) {
+        super(x, y, xBound, yBound, 0, 0, type, level, game);
         this.maxHealth = maxHealth;
         this.health = maxHealth;
         dirX = 1;
     }
 
-    public Mob(float x, float y, float xBound, float yBound, float maxHealth, float startHealth, EntityType type, Level level) {
-        super(x, y, xBound, yBound, 0, 0, type, level);
+    public Mob(float x, float y, float xBound, float yBound, float maxHealth, float startHealth, EntityType type, Level level, Game game) {
+        super(x, y, xBound, yBound, 0, 0, type, level, game);
         this.maxHealth = maxHealth;
         this.health = startHealth;
         dirX = 1;
     }
 
-    public Mob(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, float maxHealth, float startHealth, EntityType type, Level level) {
-        super(x, y, xBound, yBound, xBoundOffset, yBoundOffset, type, level);
+    public Mob(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, float maxHealth, float startHealth, EntityType type, Level level, Game game) {
+        super(x, y, xBound, yBound, xBoundOffset, yBoundOffset, type, level, game);
         this.maxHealth = maxHealth;
         this.health = startHealth;
         dirX = 1;

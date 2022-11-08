@@ -11,8 +11,9 @@ public abstract class Unit extends Mob {
     protected float ViewDistance;
     protected AudioPlayer audio;
 
-    public Unit(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, float maxHealth, float startHealth, float viewDistance, EntityType type, Level level) {
-        super(x, y, xBound, yBound, xBoundOffset, yBoundOffset, startHealth, maxHealth, type, level);
+    public Unit(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, float maxHealth, float startHealth, float viewDistance,
+                EntityType type, Level level, Game game) {
+        super(x, y, xBound, yBound, xBoundOffset, yBoundOffset, startHealth, maxHealth, type, level, game);
         this.ViewDistance = viewDistance;
         this.audio = new AudioPlayer();
     }
@@ -30,7 +31,7 @@ public abstract class Unit extends Mob {
     }
 
     float dstToPlayer(){
-        return MathUtil.Distance(this.x, this.y, Game.player.getX(), Game.player.getY());
+        return MathUtil.Distance(this.x, this.y, game.player.getX(), game.player.getY());
     }
 
     public boolean canSeePlayer(){

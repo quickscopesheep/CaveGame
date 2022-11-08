@@ -1,5 +1,6 @@
 package com.sheep.game.UI.Widgets;
 
+import com.sheep.game.Game;
 import com.sheep.game.UI.Menu;
 import com.sheep.game.gfx.Screen;
 
@@ -12,8 +13,8 @@ public class VerticalLayoutGroup extends Widget{
     int spacing;
     int padding;
 
-    public VerticalLayoutGroup(int x, int y, Menu parent, int spacing, int padding) {
-        super(x, y, 0, 0, parent);
+    public VerticalLayoutGroup(int x, int y, Menu parent, int spacing, int padding, Game game) {
+        super(x, y, 0, 0, parent, game);
         widgets = new ArrayList<>();
         this.spacing = spacing;
         this.padding = padding;
@@ -73,7 +74,7 @@ public class VerticalLayoutGroup extends Widget{
     }
 
     @Override
-    public void OnClick() {
+    public void OnClick(Game game) {
 
     }
 

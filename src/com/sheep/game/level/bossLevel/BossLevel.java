@@ -1,19 +1,21 @@
-package com.sheep.game.level;
+package com.sheep.game.level.bossLevel;
 
+import com.sheep.game.Game;
 import com.sheep.game.entity.Entity;
 import com.sheep.game.gfx.Screen;
+import com.sheep.game.level.CaveLevel;
 import com.sheep.game.util.Coord;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class BossLevel extends CaveLevel{
+public class BossLevel extends CaveLevel {
     private static final int border = 2;
     private static final int maxStrucures = 3;
 
-    public BossLevel(int width, int height, long seed, int floor) {
-        super(width, height, seed, floor);
+    public BossLevel(int width, int height, long seed, int floor, Game game) {
+        super(width, height, seed, floor, game);
     }
 
     void generateStructure(int xp, int yp, Structure s){

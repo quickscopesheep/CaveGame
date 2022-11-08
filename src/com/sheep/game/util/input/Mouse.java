@@ -1,6 +1,7 @@
 package com.sheep.game.util.input;
 
 import com.sheep.game.Game;
+import com.sheep.game.UI.Widgets.Widget;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,13 +13,13 @@ public class Mouse implements MouseListener, MouseMotionListener {
     private static int mouseX, mouseY;
     private static int button = -1;
 
-    private static List<MouseButtonListener> listeners = new ArrayList<MouseButtonListener>();
+    private static List<Widget> listeners = new ArrayList<Widget>();
 
-    public static void AddListener(MouseButtonListener listener){
+    public static void AddListener(Widget listener){
         listeners.add(listener);
     }
 
-    public static void RemoveListener(MouseButtonListener listener){
+    public static void RemoveListener(Widget listener){
         listeners.remove(listener);
     }
 
@@ -37,8 +38,9 @@ public class Mouse implements MouseListener, MouseMotionListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         for (int i = 0; i < listeners.size(); i++) {
-            MouseButtonListener listener = listeners.get(i);
-            listener.MouseButtonDown(e.getButton());
+            Widget widget = listeners.get(i);
+            if(widget.getParent().game.currentMenu == widget.getParent())
+                widget.MouseButtonDown(e.getButton());
         }
     }
 

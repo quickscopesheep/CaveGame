@@ -1,5 +1,6 @@
 package com.sheep.game.UI.Widgets;
 
+import com.sheep.game.Game;
 import com.sheep.game.UI.Menu;
 import com.sheep.game.gfx.Screen;
 
@@ -7,8 +8,10 @@ public class MultipleChoiceButton extends ButtonWidget{
     String[] options;
     int index = 0;
 
-    public MultipleChoiceButton(int x, int y, Menu parent, String[] options, int startIndex) {
-        super(x, y,"", parent, new IButton());
+    Game game;
+
+    public MultipleChoiceButton(int x, int y, Menu parent, String[] options, int startIndex, Game game) {
+        super(x, y,"", parent, new IButton(), game);
 
         this.options = options;
         this.index = startIndex;
@@ -23,8 +26,8 @@ public class MultipleChoiceButton extends ButtonWidget{
     }
 
     @Override
-    public void OnClick() {
-        super.OnClick();
+    public void OnClick(Game game) {
+        super.OnClick(game);
         index++;
         if(index >= options.length) index = 0;
     }

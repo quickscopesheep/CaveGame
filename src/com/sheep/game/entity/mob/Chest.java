@@ -1,6 +1,9 @@
 package com.sheep.game.entity.mob;
 
+import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
+import com.sheep.game.Items.items.bomb;
+import com.sheep.game.Items.items.sword;
 import com.sheep.game.Items.lootTable.LootTable;
 import com.sheep.game.Items.items.medkit;
 import com.sheep.game.entity.EntityType;
@@ -18,11 +21,16 @@ public class Chest extends Mob{
 
     LootTable lootTable;
 
-    public Chest(float x, float y, Level level) {
-        super(x, y, 16, 16, 9999, EntityType.CHEST, level);
+    public Chest(float x, float y, Level level, Game game) {
+        super(x, y, 16, 16, 9999, EntityType.CHEST, level, game);
         health = 9999;
         open = false;
-        lootTable = new LootTable("res/lootTables/crateLootTable.json");
+        //lootTable = new LootTable("json/lootTables/crateLootTable.json");
+
+        lootTable = new LootTable();
+        lootTable.addDrop(sword.class, 25);
+        lootTable.addDrop(medkit.class, 40);
+        lootTable.addDrop(bomb.class, 35);
     }
 
     @Override
@@ -45,14 +53,12 @@ public class Chest extends Mob{
         int offsetX = random.nextInt(-8, 8);
         int offsetY = random.nextInt(-8, 8);
 
-        //level.Add(new ItemDrop(x + offsetX, y + offsetY, level, new medkit(null), 0));
-
         try {
-            Class<?> itemClass = Class.forName(lootTable.getRandomDrop().itemClassName);
-            Constructor<?> itemConstructor = itemClass.getConstructor(Mob.class);
-            Item item = (Item)itemConstructor.newInstance((Mob)null);
+            Class<?> itemClass = lootTable.getRandomDrop().itemClass;
+            Constructor<?> itemConstructor = itemClass.getConstructor(Mob.class, Game.class);
+            Item item = (Item)itemConstructor.newInstance((Mob)null, game);
 
-            level.Add(new ItemDrop(x + offsetX, y + offsetY, level, item, 0));
+            level.Add(new ItemDrop(x + offsetX, y + offsetY, level, item, 0, game));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

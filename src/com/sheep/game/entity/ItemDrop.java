@@ -12,8 +12,8 @@ public class ItemDrop extends Entity{
 
     AudioPlayer audio;
 
-    public ItemDrop(float x, float y, Level level, Item drop, float pickupDelay) {
-        super(x, y, 16, 16, 0, 0, EntityType.ITEM_DROP, level);
+    public ItemDrop(float x, float y, Level level, Item drop, float pickupDelay, Game game) {
+        super(x, y, 16, 16, 0, 0, EntityType.ITEM_DROP, level, game);
         this.drop = drop;
         this.pickupDelay = pickupDelay;
         this.audio = new AudioPlayer();
@@ -21,8 +21,8 @@ public class ItemDrop extends Entity{
 
     @Override
     public void tick() {
-        if(collision(Game.player) && pickupDelay <= 0){
-            if(Game.player.pickupItem(drop)){
+        if(collision(game.player) && pickupDelay <= 0){
+            if(game.player.pickupItem(drop)){
                 audio.loadSound(AudioPlayer.SFX_PICKUP);
                 audio.play();
                 level.Remove(this);

@@ -1,5 +1,6 @@
 package com.sheep.game.Items.items;
 
+import com.sheep.game.Game;
 import com.sheep.game.Items.Item;
 import com.sheep.game.entity.EntityType;
 import com.sheep.game.entity.mob.Mob;
@@ -12,8 +13,8 @@ import java.util.Random;
 public class medkit extends Item {
     Random random;
 
-    public medkit(Mob owner) {
-        super(owner);
+    public medkit(Mob owner, Game game) {
+        super(owner, game);
         random = new Random();
     }
 

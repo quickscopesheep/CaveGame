@@ -7,13 +7,13 @@ import com.sheep.game.UI.Widgets.Widget;
 
 public class StartGameCallback extends IButton {
     @Override
-    public void OnClick(Widget widget) {
-        super.OnClick(widget);
-        Game.StartGame(((StartGameMenu)widget.getParent()).makeGameSettings());
+    public void OnClick(Widget widget, Game game) {
+        super.OnClick(widget, game);
+        game.StartGame(((StartGameMenu)widget.getParent()).makeGameSettings());
     }
 
     @Override
-    public void OnHover(Widget widget) {
-        super.OnHover(widget);
+    public void OnHover(Widget widget, Game game) {
+        super.OnHover(widget, game);
     }
 }

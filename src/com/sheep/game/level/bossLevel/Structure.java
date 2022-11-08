@@ -1,4 +1,4 @@
-package com.sheep.game.level;
+package com.sheep.game.level.bossLevel;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

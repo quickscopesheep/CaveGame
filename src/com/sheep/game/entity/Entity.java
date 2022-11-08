@@ -1,5 +1,6 @@
 package com.sheep.game.entity;
 
+import com.sheep.game.Game;
 import com.sheep.game.entity.mob.Mob;
 import com.sheep.game.gfx.Screen;
 import com.sheep.game.level.Level;
@@ -18,7 +19,9 @@ public abstract class Entity {
     protected Level level;
     boolean removed;
 
-    public Entity(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, EntityType type, Level level){
+    protected Game game;
+
+    public Entity(float x, float y, float xBound, float yBound, float xBoundOffset, float yBoundOffset, EntityType type, Level level, Game game){
         this.x = x;
         this.y = y;
         this.xBound = xBound;
@@ -28,6 +31,7 @@ public abstract class Entity {
 
         this.type = type;
         this.level = level;
+        this.game = game;
     }
 
     public abstract void tick();

@@ -18,10 +18,14 @@ public class Screen {
 
     String fontREGEX = "abcdefghijklmnopqrstuvwxyz0123456789:,.! ";
 
-    public Screen(int width, int height){
+    Game game;
+
+    public Screen(int width, int height, Game game){
         this.width = width;
         this.height = height;
         pixels = new int[width * height];
+
+        this.game = game;
 
         generateFontSprites(SpriteSheet.FontMap, 8);
     }
@@ -41,7 +45,7 @@ public class Screen {
         xp -= xOffset;
         yp -= yOffset;
 
-        float dst = MathUtil.Distance(xp, yp, Game.player.getX() - xOffset, Game.player.getY() - yOffset);
+        float dst = MathUtil.Distance(xp, yp, game.player.getX() - xOffset, game.player.getY() - yOffset);
 
         lightLevel = MathUtil.cosInterpolate(0, 1, dst/lightDst);
         lightLevel = MathUtil.clamp(lightLevel, 0, 1);
