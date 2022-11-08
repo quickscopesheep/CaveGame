@@ -1,11 +1,14 @@
 # CaveGame
 Roguelite game set in a cave
 
-# Controlls
+# Controls
 
 WASD to move
+
 Z to use
+
 C to switch item
+
 E to drop an item
 
 # How To Play
