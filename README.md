@@ -1,14 +1,14 @@
 # CaveGame
 Roguelite game set in a cave
 
-#Controlls
+# Controlls
 
 WASD to move
 Z to use
 C to switch item
 E to drop an item
 
-#How To Play
+# How To Play
 
 Your aim is to get to the door to escape the cave
 
